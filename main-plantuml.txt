@@ -1,0 +1,122 @@
+@startuml
+class Presentation {
+        presentation_id
+        filesystem_path
+        com_presentation_object
+        com_slide_show_object
+        ongoing_events
+        +handle_event()
+        -open_presentation()
+}
+
+interface TextProcessor {
+        +process()
+}
+
+class CharacterNormalizer implements TextProcessor {
+        +process()
+}
+
+class DuplicateSpaceRemover implements TextProcessor {
+        +process()
+}
+
+class XmlTranslator implements TextProcessor {
+        +process()
+}
+
+
+class TextTranslationSystem {
+        +translate()
+}
+
+class SlidePresentationService {
+        com_slide_show_object
+        translation_system: TextTranslationSystem
+        chunk_index
+        +read_slide()
+        -wait_for_ongoing_events_to_stop()
+        -next()
+}
+
+class PresentationReadingService {
+        stop_reading
+        slide_reader: SlideReadingService
+        event_handler
+        slide_index
+        +read_presentation()
+        -pause()
+        -stop()
+        -next_slide()
+        -prev_slide()
+}
+
+class XmlFinder {
+        +find_xml_tag()
+        -_get_end_tag()
+        -_get_tag_finder()
+        -_replace()
+        -_find_tag()
+        -_is_singular()
+        -_is_valid_end_tag()
+}
+
+class XmlTag {
+        +is_singular()
+        +is_closed()
+        +attributes()
+        +start_tag()
+        +end_tag()
+        +content()
+        +child_tags()
+        +get_child_tag()
+        +get_child_tag_content()
+}
+
+interface Callable {
+        +__call__()
+}
+
+class BehaviorActionEvent implements Callable {
+        +__call__()
+}
+
+class MediaPresentationEvent implements Callable {
+        +__call__()
+        -_get_media_shape()
+}
+
+class SurveyEvent implements Callable {
+        +__call__()
+}
+
+class EventWrapper {
+        +execute_event()
+        +to_string()
+        -_get_execution_function()
+}
+
+class ComThread {
+        +start()
+}
+
+PresentationReadingService --o Presentation
+SlidePresentationService --o Presentation
+TextTranslationSystem --o Presentation
+
+
+PresentationReadingService --> SlidePresentationService
+SlidePresentationService --> TextTranslationSystem
+CharacterNormalizer -up-* TextTranslationSystem
+DuplicateSpaceRemover -up-* TextTranslationSystem
+XmlTranslator -up-* TextTranslationSystem
+XmlTranslator --> XmlTag
+XmlTag -> XmlFinder
+XmlFinder -> XmlTag
+BehaviorActionEvent --* SlidePresentationService
+MediaPresentationEvent --* SlidePresentationService
+SurveyEvent --* SlidePresentationService
+EventWrapper --* SlidePresentationService
+ComThread --* EventWrapper
+
+@enduml

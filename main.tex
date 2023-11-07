@@ -1,0 +1,75 @@
+% !TeX program = lualatex
+\documentclass[12pt, fleqn, a4paper]{article}
+\include{config.tex}
+
+\begin{document}
+%\includepdf[pages={1,2,3,4}]{final.pdf}
+\setcounter{page}{5}
+
+
+\renewcommand{\cfttoctitlefont}{\hfill\Large\bf}
+\renewcommand{\cftaftertoctitle}{\hfill\hfill}
+\let\oldcontentsname\contentsname
+\renewcommand{\contentsname}{ \HeaderSize \hfill \HeaderSize \oldcontentsname}
+\renewcommand{\cftsecfont}{\mdseries\scshape\sffamily}
+\renewcommand{\cftsecpagefont}{\mdseries\scshape\sffamily}
+
+
+%\section*{\centering CONFIRMATION}
+%I, Andris Začs, confirm that I have developed the given graduation thesis individually for obtaining the degree of Bachelor of Natural Sciences in Computer Sciences. By my signature I verify that the given graduation thesis is written independently and there are no violations regarding the rights of intellectual property of other persons or plagiarism. The used papers and data sources of other authors are indicated in references. The text of the submitted paper has never been submitted partially or fully to other commission for thesis evaluation. I confirm that the electronic version of the submitted thesis meets completely the text of the submitted paper copy of the thesis.
+%\\
+%\conformationsignature{(signature)}{(name, surname)}
+%
+%\newpage
+\section*{\centering ABSTRACT}
+Development \enquote{Software development for presentation conducing robotized platform}. Author: Andris Zacs.
+Supervisor: Dr. sc. ing., Mihails Savrasovs.\par
+Paper for obtaining the degree: \enquote{Bachelor of Natural Sciences in Computer Sciences}: X p., Y ill., Z lit. src., * appendices.\par
+PRESENTATION, ROBOT, NAO\par
+Development of a robotic platform that allows to conduct autonomous interactive presentations using the Nao robot, with the ability to interact with the robot in real time and also the ability to interact with the audience through polls.
+For interfacing with Nao, a program was developed with a convenient and intuitive UX design.
+The system was implemented in Python using the public SDK for Nao - qi framework, Django web framework and PyQt GUI framework.
+As a result, 3 Python programs were developed.
+\newpage
+%\section*{\centering АНОТАЦИЯ}
+%Разработка \enquote{Разработка модуля для процедурной генерации 3D моделей
+%растений}. Автор работы: Андрис Зачс.
+%Научный руководитель: Dr. sc. ing., Михаил Саврасов.
+%Работа на соискание степени: \enquote{Бакалавр естественных наук в области компьютерныхнаук}: X стр., Y рис., Z лит. ист., * прил.\par
+%ПРЕЗЕНТАЦИЯ, РОБОТ, NAO\par
+%Разработка роботизированной платформы позволяюшая автономно проводить интерактивные презентации при помощи робота Nao, с возможностью взаимадествия с роботом в реальном времени и также возможностью взаимодейтвий с аудиторией посредством опросов. 
+%Для раборы с Nao была разработана программа с удобным и интуитивно понятным UX дизайном.
+%Работа реализованна на языке Python, используя общедоступный SDК для Nao qi фреймворк, веб фреймворк Django и GUI фреймворк PyQt.
+%В результате былo написано 3 Python программы.
+%\newpage
+%\section*{\centering ANOTĀCIJA}
+%Izstrāde “Programmatūras izstrāde prezentācijas vadīšanai robotizētai platformai”. Autors: Andris Zacs. Darba vadītājs: Dr. sc. ing., Mihails Savrasovs.\par
+%Referāts grāda iegūšanai: “Dabaszinātņu bakalaurs datorzinātnēs”: X стр., Y рис., Z лит. ист., * прил.\\
+%PREZENTĀCIJA, ROBOTS, NAO.\par
+%Robotizētas platformas izstrāde, kas ļauj vadīt autonomas interaktīvas prezentācijas, izmantojot Nao robotu, ar iespēju mijiedarboties ar robotu reāllaikā un arī iespēju ar aptauju palīdzību mijiedarboties ar auditoriju. Saskarsmei ar Nao tika izstrādāta programma ar ērtu un intuitīvu UX dizainu. Sistēma tika ieviesta Python, izmantojot publisko SDK for Nao - qi framework, Django tīmekļa ietvaru un PyQt GUI ietvaru. Rezultātā tika izstrādātas 3 Python programmas.
+%\newpage
+
+
+\setlength\cftbeforesecskip{1pt}
+
+\tableofcontents
+\newpage
+
+\addcontentsline{toc}{section}{List Of Used Abbreviations}
+\section*{\centering List Of Used Abbreviations}
+\begin{adjustwidth}{113pt}{43pt}
+	\begin{sortedlist}
+		\sortitem{VPN - Virtual Private Network}
+	\end{sortedlist}
+\end{adjustwidth}
+\addcontentsline{toc}{section}{Introductions}
+\section*{\centering Introduction}
+\section{Development Objectives}
+\section*{\centering Conclusion}
+
+\addcontentsline{toc}{section}{Reference List}
+\bibliography{refs.bib} % Entries are in the refs.bib file
+\addcontentsline{toc}{section}{Appendix}
+% \include{appendix.tex}
+\end{document}
+# vim: set wrap:

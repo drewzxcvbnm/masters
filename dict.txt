@@ -1,0 +1,14 @@
+Nao
+pptx
+PPTX
+PyQt
+startsurvey
+jumbotron
+debouncing
+unmarshalling
+sonarlint
+PyCharm
+pytest
+Liskov
+cyclomatic
+cyclomatically
