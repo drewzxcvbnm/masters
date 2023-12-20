@@ -1,6 +1,6 @@
 % !TeX program = lualatex
 \documentclass[12pt, fleqn, a4paper]{article}
-\include{config.tex}
+\input{config.tex}
 
 \begin{document}
 %\includepdf[pages={1,2,3,4}]{final.pdf}
@@ -13,41 +13,6 @@
 \renewcommand{\contentsname}{ \HeaderSize \hfill \HeaderSize \oldcontentsname}
 \renewcommand{\cftsecfont}{\mdseries\scshape\sffamily}
 \renewcommand{\cftsecpagefont}{\mdseries\scshape\sffamily}
-
-
-%\section*{\centering CONFIRMATION}
-%I, Andris Začs, confirm that I have developed the given graduation thesis individually for obtaining the degree of Bachelor of Natural Sciences in Computer Sciences. By my signature I verify that the given graduation thesis is written independently and there are no violations regarding the rights of intellectual property of other persons or plagiarism. The used papers and data sources of other authors are indicated in references. The text of the submitted paper has never been submitted partially or fully to other commission for thesis evaluation. I confirm that the electronic version of the submitted thesis meets completely the text of the submitted paper copy of the thesis.
-%\\
-%\conformationsignature{(signature)}{(name, surname)}
-%
-%\newpage
-\section*{\centering ABSTRACT}
-Development \enquote{Software development for presentation conducing robotized platform}. Author: Andris Zacs.
-Supervisor: Dr. sc. ing., Mihails Savrasovs.\par
-Paper for obtaining the degree: \enquote{Bachelor of Natural Sciences in Computer Sciences}: X p., Y ill., Z lit. src., * appendices.\par
-PRESENTATION, ROBOT, NAO\par
-Development of a robotic platform that allows to conduct autonomous interactive presentations using the Nao robot, with the ability to interact with the robot in real time and also the ability to interact with the audience through polls.
-For interfacing with Nao, a program was developed with a convenient and intuitive UX design.
-The system was implemented in Python using the public SDK for Nao - qi framework, Django web framework and PyQt GUI framework.
-As a result, 3 Python programs were developed.
-\newpage
-%\section*{\centering АНОТАЦИЯ}
-%Разработка \enquote{Разработка модуля для процедурной генерации 3D моделей
-%растений}. Автор работы: Андрис Зачс.
-%Научный руководитель: Dr. sc. ing., Михаил Саврасов.
-%Работа на соискание степени: \enquote{Бакалавр естественных наук в области компьютерныхнаук}: X стр., Y рис., Z лит. ист., * прил.\par
-%ПРЕЗЕНТАЦИЯ, РОБОТ, NAO\par
-%Разработка роботизированной платформы позволяюшая автономно проводить интерактивные презентации при помощи робота Nao, с возможностью взаимадествия с роботом в реальном времени и также возможностью взаимодейтвий с аудиторией посредством опросов. 
-%Для раборы с Nao была разработана программа с удобным и интуитивно понятным UX дизайном.
-%Работа реализованна на языке Python, используя общедоступный SDК для Nao qi фреймворк, веб фреймворк Django и GUI фреймворк PyQt.
-%В результате былo написано 3 Python программы.
-%\newpage
-%\section*{\centering ANOTĀCIJA}
-%Izstrāde “Programmatūras izstrāde prezentācijas vadīšanai robotizētai platformai”. Autors: Andris Zacs. Darba vadītājs: Dr. sc. ing., Mihails Savrasovs.\par
-%Referāts grāda iegūšanai: “Dabaszinātņu bakalaurs datorzinātnēs”: X стр., Y рис., Z лит. ист., * прил.\\
-%PREZENTĀCIJA, ROBOTS, NAO.\par
-%Robotizētas platformas izstrāde, kas ļauj vadīt autonomas interaktīvas prezentācijas, izmantojot Nao robotu, ar iespēju mijiedarboties ar robotu reāllaikā un arī iespēju ar aptauju palīdzību mijiedarboties ar auditoriju. Saskarsmei ar Nao tika izstrādāta programma ar ērtu un intuitīvu UX dizainu. Sistēma tika ieviesta Python, izmantojot publisko SDK for Nao - qi framework, Django tīmekļa ietvaru un PyQt GUI ietvaru. Rezultātā tika izstrādātas 3 Python programmas.
-%\newpage
 
 
 \setlength\cftbeforesecskip{1pt}
@@ -64,7 +29,30 @@ As a result, 3 Python programs were developed.
 \end{adjustwidth}
 \addcontentsline{toc}{section}{Introductions}
 \section*{\centering Introduction}
-\section{Development Objectives}
+In an age when digital communications plays an vital role in modern socienty, ensuring the confidentiality and integrity of network communications has become crucial. The emergence of virtual private networks (VPNs) as a method of securing and privatizing digital communications on the public Internet has been a significant development in this direction. Because of the growing popularity of virtual private networks (VPNs), governmental agencies and corporate network administrators have increased their efforts to identify and block these encrypted connections. The result has been an arms race between organizations seeking to monitor, control, or censor Internet traffic and VPN service providers competing for the privacy of their users. The implementation of VPN obfuscation, a progressive collection of technologies capable of disguising VPN traffic as routine Internet operations, is central to this dispute. This obfuscation allows unrestricted access to the global digital environment.
+
+VPNs were initially implemented as a simple way to establish secure network connections across the insecure infrastructure of the public Internet. However, the use of VPN technology eventually surpassed the scope of corporate applications. Private users are increasingly adopting virtual private networks (VPNs) for their own benefit, owing to the potential for enhanced privacy, circumvention of surveillance, circumvention of content geo-restrictions, and protection against cyber threats. In response, efforts to undermine the effectiveness of virtual private networks (VPNs) have increased. These initiatives include corporate firewall policies, government censorship initiatives such as China's Great Firewall, and anti-VPN measures implemented by content providers \citep{DPL}.
+
+The proliferation of anti-VPN initiatives has sparked the emergence of a complex area of cybersecurity that uses data packet signatures to distinguish VPN connections. In response, the VPN obfuscation movement has developed a number of countermeasures. As a recent example, we have the Geneva algorithm which employs genetic algorithms to generate dynamic, packet-
+manipulation-based evasion strategies, providing a new take on DPI evasion \citep{Geneva}.
+
+Steganography can also be utilized in VPN obfuscation. This method provides a way around DPI systems by embedding VPN traffic inside regular data streams. Steganography enables regular web traffic, like audio or video streams, to conceal VPN packets, making it difficult for DPI tools to discern between encrypted and regular traffic \citep{Stega}. The effectiveness and subtlety of this method are assessed, offering insights into its limitations and useful applications in different network environments.
+
+Another way of obfuscating VPN traffic is through the application of port switching. To avoid detection, a VPN server is configured to use non-standard ports, which can assist in getting around simple DPI systems that keep an eye on popular VPN ports. 
+
+Another way of providing VPN obfuscation is the integration of encrypted proxy tunneling software like Shadowsocks and Stunnel. It can be used to make VPN traffic look like HTTPS traffic \citep{Shadowsocks}. 
+
+All of these methods, excluding port switching, bring with them a trade-off of in connection speed and throughput, 
+though of varying degrees.
+
+The thesis begins with a comprehensive overview of VPN technology and then describes the various use cases for VPNs as well as the fundamental principles underlying their operation. It then describes the techniques used to detect VPN traffic. The following is a comprehensive examination of various obfuscation methods and their adaptation to evolving VPN traffic detection strategies. The goal of this analysis is to provide insight into VPN detection methodologies and obfuscation techniques through experimentation, qualitative assessment, and technical proficiency in the process developing a methodology by which one can consider selecting an obfuscation method in real-life scenarios.
+
+\section{Background}
+\subsection{Deep packet inspection}
+% DPI systems often use simplified machine states of network stacks that are not exact implementation copies of end hosts. Discrepancies can then be exploited through packet fragmentation or manipulation.
+\subsection{OpenVPN identification}
+\subsection{Packet manipulation}
+\subsection{Protocol obfuscation}
 \section*{\centering Conclusion}
 
 \addcontentsline{toc}{section}{Reference List}
