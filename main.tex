@@ -49,10 +49,44 @@ The thesis begins with a comprehensive overview of VPN technology and then descr
 
 \section{Background}
 \subsection{Deep packet inspection}
-% DPI systems often use simplified machine states of network stacks that are not exact implementation copies of end hosts. Discrepancies can then be exploited through packet fragmentation or manipulation.
+Deep Packet Inspection (DPI) is a form of network packet filtering that examines the data part (and often the header) of a packet as it passes an inspection point. DPI examines the packet's data payload in depth as opposed to conventional packet filtering, which simply looks at the header section, allowing for more complex packet decision-making. DPI can detect, identify, classify, reroute, or prevent packets containing particular data or code payloads thanks to this sophisticated technique.
+
+Due to its great versatility, DPI technology is employed in many different contexts, such as traffic management, censorship, eavesdropping, and network security. It is an essential tool for internet service providers and regulatory bodies since it can identify and manage apps using the network even in the face of encryption and port-hopping schemes.
+
+\subsubsection{DPI in Relation to VPNs}
+DPI is important when it comes to VPNs (Virtual Private Networks). In order to protect privacy and get around censorship or geographical limitations, VPNs usually encrypt data. Nonetheless, DPI can be used to examine encrypted packet metadata, including timing, size, destination, and protocol. This makes it possible to identify VPN activity even when the content is encrypted.
+
+Certain DPI techniques can detect the signatures of the encryption protocols used by VPNs, allowing them to differentiate between conventional and VPN traffic. This capability is essential in situations when the use of VPNs is prohibited or closely watched, like in nations with severe internet censorship.
+
+\subsubsection{DPI's Challenges for VPNs}
+VPN technologies have substantial hurdles due to the efficacy of DPI:
+\begin{itemize}
+  \item \textbf{Detection and Blocking}: If Advanced DPI detects that a VPN is being used, it has the ability to either block or limit data, making the VPN useless for getting around censorship or geographical restrictions.
+  \item \textbf{Avoiding Encryption}: Although DPI is unable to decrypt data, it can identify and potentially block VPN services based on educated estimates about the encrypted traffic's nature.
+  \item \textbf{Adaptive Countermeasures}: VPN service providers are compelled to constantly modify and introduce fresh methods to avoid being detected by DPI, resulting in a never-ending game of cat and mouse between VPN providers and DPI-using companies.
+\end{itemize}
+
+\subsubsection{Case Studies}
+\begin{itemize}
+  \item \textbf{The Great Firewall of China}: China's Great Firewall is among the most well-known applications of DPI technology. Among other censoring tools, it uses advanced DPI techniques to identify and restrict VPN connections. VPN service providers frequently need to improve their techniques on a regular basis to avoid being detected.
+  \item \textbf{Iran's Internet Censorship}: Especially during political turmoil, Iran's government use DPI to monitor and regulate internet traffic, including the detection and blocking of VPN usage.
+  \item \textbf{Corporate Network Management}: By keeping an eye out for unauthorised VPN use that might go around corporate security measures, DPI is utilised in a business context to guarantee security and compliance.
+  \item \textbf{Russia's Telegram Ban}: Using DPI, Russia tried to ban the messaging service Telegram. Telegram, however, circumvented this restriction using a variety of strategies, including VPNs, illustrating the continuous conflict between DPI implementation and VPN evasion approaches.
+\end{itemize}
+
+In conclusion, DPI not only poses a serious threat to VPN technologies but also propels the ongoing development of VPN obfuscation strategies including port switching, network steganography, and sophisticated tunnelling methods like Geneva, Shadowsocks, and Stunnel.
+
+
 \subsection{OpenVPN identification}
 \subsection{Packet manipulation}
+% DPI systems often use simplified machine states of network stacks that are not exact implementation copies of end hosts. Discrepancies can then be exploited through packet fragmentation or manipulation.
 \subsection{Protocol obfuscation}
+\section{Experimentation}
+\subsection{Testbed}
+\subsection{Port switching}
+\subsection{Steganography}
+\subsection{Geneva}
+\subsection{Encryption tunneling}
 \section*{\centering Conclusion}
 
 \addcontentsline{toc}{section}{Reference List}
