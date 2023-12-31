@@ -30,16 +30,25 @@
 		\sortitem{TCB - TCP Control Block}
 		\sortitem{TCP - Transmission Control Protocol}
     \sortitem{HTTPS - Hypertext Transfer Protocol Secure}
+    \sortitem{SSL - Secure Sockets Layer}
+    \sortitem{ISP - Internet Service Provider}
+    \sortitem{IP - Internet Protocol}
+    \sortitem{TCP - Transmission Control Protocol}
+    \sortitem{UDP - User Datagram Protocol}
+    \sortitem{TLS - Transport Security Layer}
+    \sortitem{ML - Machine Learning}
+    \sortitem{AI - Artificial Intelligence}
+    \sortitem{SSH - Secure Shell}
 	\end{sortedlist}
 \end{adjustwidth}
 \addcontentsline{toc}{section}{Introductions}
 \section*{\centering Introduction}
-In an time when digital communication plays a fairly important role in modern socienty, ensuring the confidentiality and integrity of network communications has become crucial. The emergence of virtual private networks (VPNs) as a method of securing and privatizing digital communications on the publicly used Internet has been a significant development in this direction. Because of the ever growing popularity of virtual private networks, government agencies and corporate network administrators have ever so increased their efforts to identify and block these encrypted connections. The result has been, what one may call, an arms race between organizations seeking to monitor, control, or censor Internet traffic and VPN service providers competing for the privacy of their users. The implementation of VPN obfuscation, an advanced collection of technologies capable of disguising VPN traffic as routine Internet operations, is central to this dispute. This obfuscation allows free access to the global digital landscape.
+In an time when digital communication plays a fairly important role in modern socienty, ensuring the confidentiality and integrity of network communications has become crucial. The arrival of virtual private networks (VPNs) as a way of securing and privatizing digital communications on the publicly used Internet has been a significant development in this direction. Because of the ever growing popularity of virtual private networks, government agencies and corporate network administrators have ever so increased their efforts to identify and block these encrypted connections. The result has been, what one may call, an arms race between organizations seeking to monitor, control, or censor Internet traffic and VPN service providers competing for the privacy of their users. The implementation of VPN obfuscation, an advanced collection of technologies capable of disguising VPN traffic as routine Internet operations, is central to this dispute. This obfuscation allows free access to the global digital landscape.
 
-Initially, VPNs were implemented as just a way to establish secure network connections across the insecure infrastructure of the public Internet. However, the use of VPN technology eventually grown ouside of the scope of corporate applications. Private users are increasingly adopting virtual private networks (VPNs) for their own benefit, owing to the potential for enhanced privacy, circumvention of surveillance, circumvention of content geo-restrictions, and protection against cyber threats. In response, efforts to undermine the effectiveness of virtual private networks have increased. These initiatives include corporate firewall policies, government censorship initiatives such as China's Great Firewall, and anti-VPN measures implemented by content providers \citep{DPL}.
+Initially, VPNs were implemented as just a way to establish secure network connections across the insecure infrastructure of the public Internet. However, the use of VPN technology eventually grown ouside of the scope of corporate applications. Privacy oriented users are increasingly adopting virtual private networks for their own benefit, due to the potential for enhanced privacy, circumvention of surveillance, circumvention of content location based restrictions, and protection against cyber threats. In response, efforts to undermine the effectiveness of virtual private networks have increased. These initiatives include corporate firewall policies, government censorship initiatives such as China's Great Firewall, and anti-VPN measures implemented by content providers \citep{DPL}.
 
-The proliferation of anti-VPN initiatives has sparked the emergence of a complex area of cybersecurity that uses data packet signatures to distinguish VPN connections. In response, the VPN obfuscation movement has developed a number of countermeasures. As a recent example, we have the Geneva algorithm which employs genetic algorithms to generate dynamic, packet-
-manipulation-based evasion strategies, providing a new take on DPI evasion \citep{Geneva}.
+The gradual and yet noticable proliferation of anti-VPN initiatives has sparked the emergence of a complex area of cybersecurity that uses data packet signatures to distinguish VPN connections. In response, the VPN obfuscation movement has developed a number of countermeasures. As a recent example, we have the Geneva algorithm which employs genetic algorithms to generate dynamic, packet-
+manipulation-based evasion strategies, providing a new take on Deep Packet Inspection (DPI) evasion \citep{Geneva}.
 
 Steganography can also be utilized in VPN obfuscation. This method provides a way around DPI systems by embedding VPN traffic inside regular data streams. Steganography enables regular web traffic, like audio or video streams, to conceal VPN packets, making it difficult for DPI tools to discern between encrypted and regular traffic \citep{Stega}. The effectiveness and subtlety of this method are assessed, offering insights into its limitations and useful applications in different network environments.
 
@@ -50,40 +59,102 @@ Another way of providing VPN obfuscation is the integration of encrypted proxy t
 All of these methods, excluding port switching, bring with them a trade-off of in connection speed and throughput, 
 though of varying degrees.
 
-The thesis begins with an overview of VPN technology and then describes the various use cases for VPNs as well as the fundamental principles underlying their operation. It then describes the techniques used to detect VPN traffic. The following is a comprehensive examination of various obfuscation methods and their adaptation to evolving VPN traffic detection strategies. The goal of this analysis is to provide insight into VPN detection methodologies and obfuscation techniques through experimentation, qualitative assessment, and technical proficiency in the process developing a methodology by which one can consider selecting an obfuscation method in real-life scenarios.
+The thesis begins with an overview of VPN technology and then describes the various use cases for VPNs as well as the fundamental principles underlying their operation. It then describes the techniques used to detect VPN traffic. The following is a comprehensive examination of various obfuscation methods and their adaptation to evolving VPN traffic detection strategies. The goal of this analysis is to provide insight into VPN detection methodologies and obfuscation techniques through experimentation, literature analysis, qualitative assessment, and technical proficiency in the process developing a methodology by which one can consider selecting an obfuscation method in real-life scenarios. The bulk of the experimentation was conducted utilizing a virtual networking topology with the prime VPN being OpenVPN and ndpi being used as the DPI system.
 
+\section{Literature}
+For the purposes of gaining insight into the topic of VPN obfuscation an extensive dive and analysis was conducted into the topic of VPNs, DPI and protocol obfuscation. Many related sources and research publications were found, though it may be noted that none of the research results found were of a similar nature to my own topic. Much of the research, was of a more focused nature, typically centering around a more narrow topic. None of them took a comparative approach to the VPN obfuscation methods. In addition, they approached the topic from a different perspective. The perspective of general data hiding, not taking VPNs into consideration, some examples being \cite{Geneva}, \cite{Stega} and \cite{symtcp} where there is no explicit mention of VPNs. In addition, many research publications were aimed towards the opposite, with goal of developing progressively new ways of detecting VPN traffic instead of hiding it, examples of thing being \cite{detection1}, \cite{detection2} and \cite{detection3}.
+
+\subsection{Search Strategy}
+The process of finding source of literature was incremental and partially iterative in its nature. At first, a list of topic specific terms and keywords was compiled: Deep packet inspection, network traffic analysis, censorship circumvention. 
+With these keywords, a number of initial sources were found, those most prominently included: \cite{Geneva}, \cite{gohop} and \cite{DPL}.
+
+Based on the found literature sources, a more clear understanding of the topic and its terminology was garnered. Accordingly, an extended list terms and keyword was compiled which now included: steganography, packet fragmentation, traffic manipulation, network security, Obfsproxy. 
+This process was then again repeated until an adequate understanding of the topic was achieved.
+
+\subsection{Literature Repository Selection}
+In order to find the literature a number of digital libraries were utilized based on the degree of relevance in relation to the topics of computer science, networking and software engineering. The most prominent of those repositoiries being:
+\begin{itemize}
+  \item Research Gate
+  \item IEEE Xplore
+  \item ArXiv
+  \item ACM Digital Library
+  \item Springer Link
+  \item Dergi Park
+\end{itemize}
+In some exceptional cases, more unoffical sources were used, for example, jouralist articles or website documentation. This applied for cases like \cite{Shadowsocks} and \cite{openvpn2} where the most reliable source of information for how Shadowsocks and OpenVPN work came from website documentation.
+\subsection{Exclusion criteria}
+For the systematic review of literature relating to VPN obfuscation, Deep Packet Inspection, and protocol obfuscation, certain exclusion criterias were employed to ensure the relevance and validity of the chosen sources. These criteria were used in filtering out literature that did not directly contribute to the understanding of the topic or meet the requirements. The used exclusion criteria are as so:
+\begin{itemize}
+\item \textbf{Non-Academic Sources:} Sources lacking peer-review or not published in recognized academic journals or conferences were excluded to the utmost degree. This includes blog posts, non-reviewed whitepapers, and informal publications. Though still, some non-academic sources were used when absolutely needed.
+\item \textbf{Irrelevant Topics:} Literature that did not directly address VPNs, VPN obfuscation, DPI, or protocol obfuscation was excluded. This encompasses studies focused solely on broader topics of corporate network security or general VPN usage. Though, to be clear, papers that provide in some way a detailed technical explanation on how protocols, VPNs or DPI were, in certain cases, were included. 
+\item \textbf{Language Constraints:} Sources not available in English were excluded.
+\item \textbf{Duplicate Studies:} In cases where multiple publications reporting the same information or research, only the most comprehensive or recent version was included.
+\item \textbf{Geographical Irrelevance:} Studies focusing on region specific VPN usage or censorship practices, which are not applicable or relevant to the broader context of global VPN obfuscation, were excluded.
+\item \textbf{Technical Inapplicability:} Research that focuses on obsolete or rarely used VPN protocols or technologies was excluded, to concentrate on methods and findings relevant to current practices.
+\end{itemize}
+These exclusion criteria were applied to make sure the collection of literature was focused and relevant. The criteria were developed to strike a balance between inclusiveness and specificity, therefore providing a comprehensive overview of the current state of research in VPN obfuscation, DPI, and protocol obfuscation.
+
+
+\subsection{Found literature}
+As mentioned before, a number of sources relating to VPNs, protocol obfuscation and DPI were successfully found. Though all of these sources differ in their goal from this thesis. None of them perform a wide comparative review and analysis for VPN obfuscation methods. The found literature is used as a source of information, from which a comprehensive overview of VPN obfuscation is synthesized
+\subsubsection{VPN related literature}
+The found literature addressing VPNs is quite diverse. Covering various topics from technical implementation to traffic identification and obfuscation. Here is a general overview of the key literature in this area:
+\begin{itemize}
+  \item \textbf{OpenVPN Traffic Identification:} \cite{openvpn} in their work titled "OpenVPN Traffic Identification Using Traffic Fingerprints and Statistical Characteristics" provides a good general overview on how OpenVPN traffic could be identified. This information is critical towards understanding the characteristics of VPN traffic and how DPI can go about detecting it.
+  \item \textbf{SSL VPN Advanteges:} The benefits of SSL based VPNs is discussed in-depth by \cite{sslvpn} and this work highlights certain features and benefits of SSL VPNs, which are critical for secure and remote access.
+  \item \textbf{General VPN overview:} a basic definition and understanding of VPNs is provided by \cite{whatvpn} helping to establish a baseline border between data obfuscation and VPN obfuscation.
+  \item \textbf{Tor and VPNs:} The intersection of Tor and VPNs is discussed in the chapter "Tor Relays, Bridges, and Obfsproxy" by \cite{bridges}. The chapter provides a fairly well-rounded understanding of how Tor and VPNs can be used together for enhanced anonymity and privacy.
+\end{itemize}
+\subsubsection{DPI related literature}
+DPI is an important part of corporate networking and traffic analysis and several sources have been found that provide an insightful overview of this technology. Here are some of the key highlight in terms of found literature:
+\begin{itemize}
+  \item \textbf{Deep Packet Inspection Survey:} In the paper by \cite{DPL} "A survey on deep packet inspection", a comprehensive look is provided for DPI technologies, expositing fundamental facts about DPI such as on what OSI layer they operate and what mechanism are used to inspect packet contents, such as regular expression.
+  \item \textbf{DPI and Traffic Manipulation:} \cite{dpifragmentation} in "Control Logic Injection Attacks on Industrial Control Systems" and \cite{tcpevasion} in "Your State is Not Mine: A Closer Look at Evading Stateful Internet Censorship", study DPI in terms of traffic manipulation and evasion methods. These papers provide insights into how DPI can be circumvented or exploited, which is important for understanding its limitations and possible vulnerabilities.
+  \item \textbf{DPI and Machine Learning:} \cite{dpiml} postulate the integration of machine learning into DPI systems and present an new approach for DPI systems enhanced by machine learning which potentially describes the future of DPI and how they will further evolve.
+  \item \textbf{DPI and SSL Inspection:} \cite{dpiprobing} assess the DPI system of network traffic, including anomaly detection. This study is important for understanding how DPI is adapting to modern encrypted traffic.
+\end{itemize}
+These chosen studies give a broad look at DPI, looking at its scientific roots, its uses in different areas, and new problems that are coming up. To fully understand DPI in the bigger picture of VPN obfuscation and protocol obfuscation, which are the main ideas of this thesis, you need to understand these aspects.
+\subsubsection{Protocol obfuscation related literature}
+Protocol obfuscation refers to the process of using various methods and techniques to hide the true identity of the protocol being used for communication between network devices. This is most important area of study pertaining to my thesis and as such many different sources and papers were found for it:
+\begin{itemize}
+  \item \textbf{Geneva: Evolving Censorship Evasion Strategies:} \cite{Geneva} provide an modern and innovative new method for automated DPI evasion by utilizing genetic algorithms for developing a unique strategy that could be used to bypass any DPI system in place.
+  \item \textbf{Practical Internet Steganography:} \cite{Stega} presents steganography as a means of obfuscating communication protocols, an important aspect of circumventing DPI. The paper itself talks about utilizing redundant IP header fields for carrying the conent data.
+  \item \textbf{SymTCP: Automated Discrepancy Discovery:} \cite{symtcp} discuss a method for evading DPI through the discovery and use of discrepancies/inconsistencies in TCP implementations. Mainly, this study helps in understanding how protocol behaviors can be manipulated to evade detection.
+  \item \textbf{Hiding Data in the OSI Network Model:} \cite{osisteg} discuss the idea of data hiding at various layers of the OSI model and their corresponding protocols which in some cases have field headers that are unnecessary in certain situations. This research provides foundational knowledge on the versatility of obfuscation techniques across different network layers.
+\end{itemize}
+All together, these studies give a full picture of protocol deception methods and how they are used. They show how protocol obfuscation is changing because DPI and filtering technologies are getting better. This thesis needs to put these methods in the bigger picture of VPN obfuscation, so understanding how they work is very important.
 \section{Background}
 \subsection{Virtual Private Networks}
 \subsubsection{Definition and Purpose of VPNs}
-A VPN is a communication system that enables safe and private connections within a public network infrastructure, such as the internet. Its purpose is to facilitate the secure and private transmission of data over a shared network, restricting access to only authorized users within a certain community of interest.\citep{whatvpn} VPNs ensure anonymity by utilizing techniques such as tunneling and encryption. This allows for the creation of a virtual network that makes use of the existing infrastructure of the public network, while maintaining high levels of security and privacy. A VPN serves the purpose of facilitating safe and confidential communication, which is particularly crucial for the transmission of sensitive data and distant connectivity to private networks.
+A VPN is a fairly complicated communication system that enables safe and private connections within a public network infrastructure, such as the internet by using secure protocols and encryption. Its purpose is to facilitate the secure and private transmission of data over a shared network, restricting access to only authorized users within a certain community of interest.\citep{whatvpn} VPNs ensure anonymity by utilizing techniques such as tunneling and encryption. This allows for the creation of a virtual network that makes use of the existing infrastructure of the public network, while maintaining high levels of security and privacy. A VPN serves the purpose of facilitating safe and confidential communication, which is particularly crucial for the transmission of sensitive data and distant connectivity to private networks.
 \subsubsection{Types of VPNs}
 
-For lone users who must connect to a private network from a distance, \textbf{remote access VPNs} are made. This kind is frequently used by people who work from home or telecommute and who need safe remote access to company or personal network resources. The user's device's VPN client software creates a secure connection to a VPN server, which then provides access to the private network. With this configuration, data transported over the internet is guaranteed to be encrypted, protecting its integrity and secrecy.
+For lone users who must connect to a private network from a distance, \textbf{remote access VPNs} are made. It is frequently used by people who work from home and who need safe/secure remote access to company or personal network resources. The user's device's VPN client software creates a secure connection to a VPN server, which then provides access to the private network. With this configuration, data transported over the internet is supposed to be encrypted, protecting its integrity and privacy.
 
 \textbf{Site-to-Site VPNs},
-sometimes referred to as Router-to-Router VPNs, are mostly utilized by big businesses with dispersed offices. The purpose of these VPNs is to link whole networks together. For example, a company connecting its office network in New York to its office network in London might do so by using a Site-to-Site VPN. This sort of VPN can be further divided into two categories: Extranet-Based (which connects to sites outside the organization, such as partners or vendors) and Intranet-Based (which connects to numerous sites within the same organization). \citep{sitetosite}
+also known as Router-to-Router VPNs, are fairly often used by large enteprises with offices that are dispersed in different places. The goal of these VPNs is to link entire networks together. For example, a company connecting its office network in New York to its office network in London may be able to do so by using a Site-to-Site VPN. This kind of VPN can be further divided into two categories: Extranet-Based (which connects to sites outside the organization, such as partners or vendors) and Intranet-Based (which connects to numerous sites within the same organization). \citep{sitetosite}
 
 \textbf{Personal VPN} 
-services are sold to individuals by outside companies. These services help people protect their privacy and safety by encrypting their internet data and hiding their IP address from other people, like ISPs. People often use personal VPNs to get around content limits based on location, stay anonymous online, and keep their data safe when they use public Wi-Fi networks.
+services are sold to people by outside companies and service providers. These services help people protect their privacy and safety by encrypting their internet data and hiding their IP address from other parties, like ISPs. People often use personal VPNs to get around location based content limits, and to stay anonymous online, and, of course, to keep their data safe when they use public Wi-Fi networks.
 
 A \textbf{Mobile VPN}
-maintains a consistent connection as the user moves and changes network connections, making it ideal for professionals who frequently switch between Wi-Fi and cellular data networks. Unlike traditional VPNs, which can drop connections during such transitions, Mobile VPNs ensure uninterrupted connectivity and application session persistence. \citep{mobilevpn}
+is a VPN that maintains a consistent connection as the user moves and changes network connections, making it very comfortable for professionals who frequently switch between Wi-Fi and cellular data networks. And unlike traditional VPNs, which can drop connections during such transitions, Mobile VPNs ensure uninterrupted connectivity and application session persistence so that, for example, a used logged into a website is not suddenly disconnected. \citep{mobilevpn}
 
 \textbf{Hardware VPNs}
-offer a dedicated standalone device with dedicated processors to handle VPN functions. This type offers robust security, high performance, and ease of maintenance, making it suitable for large businesses. However, they can be more expensive than software-based solutions and might require more technical expertise for setup and management. A valid example of this may be a pure hardware implementation of WireGuard on FPGA. \citep{hardwarevpn} 
+offer a separate standalone device with dedicated processors to handle VPN operations. This type offers also robust security, naturally high performance, and ease of maintenance, making it fairly suitable for large businesses. Although, they can be more expensive than software-based solutions and could require more technical knowledge and expertise for setup and management. A valid example of this may be a pure hardware implementation of WireGuard on FPGA. \citep{hardwarevpn} 
 
 \textbf{Secure Sockets Layer (SSL)}
-VPNs provide secure remote access to an organization's internal network and applications. Unlike traditional VPNs that require installing specific client software, SSL VPNs can be accessed using a standard web browser, providing a more flexible solution for users. They are particularly useful for providing access to web applications and services. \citep{sslvpn}
+VPNs are VPNs that provide safe remote access to an organization's internal network and applications, in a similar fashion to the before mentioned ones, but unlike traditional VPNs that require installing specific client software, SSL VPNs can be used from a standard web browser, providing a more flexible/robust solution for users. They are especially useful for providing access to web applications and services. \citep{sslvpn}
 
 \subsubsection{VPN Protocols and Standards}
-Different protocols and standards, each with specific functionality and security levels, are at the core of VPN technology. Understanding VPN protocol obfuscation and Deep Packet Inspection evasion requires to have a solid understanding of these protocols:
+Different protocols and standards, each with their specific functionality and security mechanisms, could be represented as the core of VPN technology. Understanding VPN protocol obfuscation and Deep Packet Inspection evasion methods requires a solid understanding of these protocols:
 \begin{itemize}
-  \item \textbf{OpenVPN}: An exceptionally configurable and resilient protocol. It is known for its open-source implementation of security and performance technologies, including the OpenSSL encryption library. OpenVPN is a highly adaptable software that supports a wide range of encryption algorithms and can circumvent firewalls. It is an ideal candidate for research into obfuscation and DPI evasion techniques due to its adaptability.
-  \item \textbf{IPSec/IKEv2}: Because of its reliability and speed, Internet Protocol Security (IPSec) and Internet Key Exchange version 2 (IKEv2) provide robust security. However, it is less suitable for in-depth obfuscation research because to its intricacy and the need for a third-party client on some platforms.
-  \item \textbf{L2TP/IPSec}: Because IPSec and Layer 2 Tunneling Protocol (L2TP) work so well together, many devices employ them together. But because L2TP/IPSec depends on fixed ports, it is less suitable for obfuscation research because it is more prone to DPI and simpler to stop.
+  \item \textbf{OpenVPN}: An very configurable and robust protocol. One of the things its known fore are its open-source implementations of security and performance technologies, including the OpenSSL encryption library. OpenVPN is a highly adaptable software that supports a large range of encryption algorithms and can circumvent firewalls. It is an ideal candidate for research into obfuscation and DPI evasion techniques due to its adaptability.
+  \item \textbf{IPSec/IKEv2}: with its acclaimed speed and reliability, Internet Protocol Security (IPSec) and Internet Key Exchange version 2 (IKEv2) provide strong security. However, it is less suitable for in-depth obfuscation research because to its intricacy and the need for a third-party client on some platforms. \citep{ipsec}
+  \item \textbf{L2TP/IPSec}: Due to how IPSec and Layer 2 Tunneling Protocol (L2TP) work complementary to each other, many devices use them together. But because L2TP/IPSec depend on fixed ports, it is less suitable for obfuscation research because it is more prone to DPI and simpler to stop.
   \item \textbf{PPTP}: One of the first VPN methods was Point-to-Point Tunneling Protocol (PPTP). PPTP is not recommended for secure communications because it has known security gaps and encryption that is not very strong. This makes it less relevant for current study into obfuscation and DPI evasion.
-  \item \textbf{SSTP}: Secure Socket Tunneling Protocol is well-known for its capacity to circumvent the majority of firewalls. However, because it is Microsoft's proprietary software, it does not have the openness and public inspection that are required for conducting in-depth study on obfuscation.
-  \item \textbf{WireGuard}: WireGuard, a more recent addition, provides both simplicity and high-speed performance. Although it shows potential, its relative newness has limited its testing in various circumstances, especially in situations involving obfuscation.
+  \item \textbf{SSTP}: Secure Socket Tunneling Protocol is well-known for its capacity to circumvent the majority of firewalls. However, because it is Microsoft's proprietary software, it does not have the openness and public inspection that are required for conducting in-depth study on obfuscation. \citep{sstp}
+  \item \textbf{WireGuard}: WireGuard, a more recent addition, provides both simplicity and high-speed performance. Although it shows potential, its relative newness has limited its testing in various circumstances, especially in situations involving obfuscation. \citep{wireguard}
 \end{itemize}
 Taking these things into account, OpenVPN becomes the main topic of experimentation into hiding VPN protocols and getting around DPI. Because it is open-source, it can be studied and configured in a lot of detail, which is necessary for studying effective obfuscation methods, in addition OpenVPN is widely used and supports many different types of encryption, it is also a good choice for this study.
 \subsubsection{Security Mechanisms in VPNs and DPI challenges}
@@ -96,7 +167,7 @@ VPN's build safe, encrypted tunnels that shield users from all kinds of risks, l
 
 \paragraph{Tunneling Protocols}
 \begin{itemize}
-  \item \textbf{Function}: OpenVPN, L2TP/IPsec, and IKEv2 are examples of tunneling protocols that are utilized for the purpose of encapsulating and securely transmitting data over the internet networks. In addition to ensuring that data is kept private and unaltered during the transmission process, they define the manner in which packets are transmitted.
+  \item \textbf{Function}: OpenVPN, L2TP/IPsec, and IKEv2 are standard cases of tunneling protocols that are used for the goal of encapsulating and securely transmitting data over the internet networks. In addition to ensuring that data is kept private and unaltered during the transmission process, they define the manner in which packets are transmitted.
   \item \textbf{DPI challenge}: DPI solutions have the capability to detect and classify network traffic originating from widely used tunneling protocols. DPI can identify and impede VPN traffic by analyzing packet headers and sizes, particularly when conventional ports and protocols are employed.
 \end{itemize}
 
@@ -124,7 +195,8 @@ VPN's build safe, encrypted tunnels that shield users from all kinds of risks, l
 	\caption{Inspection area of DPI}
   \label{fig:dpiinspect}
 \end{figure}
-Deep Packet Inspection (DPI) is a form of network packet filtering that examines the data part (and often the header) of a packet as it passes an inspection point. As can be seen on the figure above, DPI examines the packet's data payload in depth as opposed to conventional packet filtering, which simply looks at the header section, allowing for more complex packet decision-making. DPI can detect, identify, classify, reroute, or prevent packets containing particular data or code payloads thanks to this sophisticated technique.
+Deep Packet Inspection is a system for network packet filtering. It examines the data part (and often the header) of a packet as it passes an inspection point. 
+As can be seen on \cref{fig:dpiinspect}, DPI examines the packet's data payload in depth as opposed to conventional packet filtering, which simply looks at the header section, allowing for more complex packet decision-making. DPI can detect, identify, classify, reroute, or prevent packets containing particular data or code payloads thanks to this sophisticated technique.
 
 Due to its great versatility, DPI technology is employed in many different contexts, such as traffic management, censorship, eavesdropping, and network security. It is an essential tool for internet service providers and regulatory bodies since it can identify and manage apps using the network even in the face of encryption and port-hopping schemes.
 
@@ -196,10 +268,10 @@ To summarize, the discipline of protocol obfuscation provides a variety of metho
 \subsection{Case Studies}
 There exist numerous real-life examples of DPI being deployed and used on a significant scale. Some of the most notorious being:
 \begin{itemize}
-  \item \textbf{The Great Firewall of China (GFW)}: China's Great Firewall is among the most well-known applications of DPI technology. Among other censoring tools, it uses advanced DPI techniques to identify and restrict VPN connections. VPN service providers frequently need to improve their techniques on a regular basis to avoid being detected.
-  \item \textbf{Iran's Internet Censorship}: Especially during political turmoil, Iran's government use DPI to monitor and regulate internet traffic, including the detection and blocking of VPN usage.
+  \item \textbf{The Great Firewall of China (GFW)}: China's Great Firewall is a very well-known real-life applications of DPI technology. Among other censoring tools, it uses advanced DPI techniques to identify and restrict VPN connections. VPN service providers frequently need to improve their techniques on a regular basis to avoid being detected. \citep{gfw}
+  \item \textbf{Iran's Internet Censorship}: Especially during political turmoil, Iran's government use DPI to monitor and regulate internet traffic, including the detection and blocking of VPN usage. \citep{iran}
   \item \textbf{Corporate Network Management}: By keeping an eye out for unauthorised VPN use that might go around corporate security measures, DPI is utilised in a business context to guarantee security and compliance.
-  \item \textbf{Russia's Telegram Ban}: Using DPI, Russia attempted to ban the messaging service Telegram. Telegram, however, circumvented this restriction using a variety of strategies, including VPNs, illustrating the continuous conflict between DPI implementation and VPN evasion approaches.
+  \item \textbf{Russia's Telegram Ban}: Using DPI, Russia attempted to ban the messaging service Telegram. Telegram, however, circumvented this restriction using a variety of strategies, including VPNs, illustrating the continuous conflict between DPI implementation and VPN evasion approaches. \citep{russia}
 \end{itemize}
 
 DPI not only poses a serious threat to VPN technologies but also propels the ongoing development of VPN obfuscation strategies including port switching, network steganography, and sophisticated tunnelling methods like Geneva, Shadowsocks, and Stunnel.
@@ -224,12 +296,12 @@ Tor bridges are alternate Tor network entry points that are not included in the 
 
 Furthermore, the Tor Project launched pluggable transports, a technique meant to change the look of Tor traffic, making it difficult for DPI systems to recognize. Obfsproxy (obfuscated proxy), for example, disguises Tor traffic as conventional, innocuous-looking internet traffic. This makes DPI detection much more difficult. \citep{bridges}
 
-Meek, another pluggable transport, employs a method known as domain fronting to make Tor traffic appear to be connecting with a prominent website such as Google or Amazon. This strategy takes use of the fact that restricting traffic to these important sites would cause enormous collateral harm, rendering censorship an unfeasible choice.
+Meek, another pluggable transport, employs a method known as domain fronting to make Tor traffic appear to be connecting with a prominent website such as Google or Amazon. This strategy takes use of the fact that restricting traffic to these important sites would cause enormous collateral harm, rendering censorship an unfeasible choice. \citep{domainfronting}
 
 \subsubsection{The Ongoing Cat-and-Mouse Game}
 The progression of DPI and the accompanying advancements in Tor technology symbolize an ongoing struggle between surveillance parties and proponents of internet privacy. As the technologies for DPI become more sophisticated, the techniques for circumventing them also become increasingly more complex. The implementation of Tor bridges and pluggable transports serving as a valid example of this continuing conflict.
 
-Nevertheless, the usability of these approaches may differ depending on the geographical area and the particular DPI technology being employed. Tor bridges and other obfuscation techniques remain effective for evading detection in certain regions. In some cases, particularly in countries with sufficient government funding for advanced Deep Packet Inspection  technologies, even these advanced methods encounter difficulties.\citep{chinator}
+Nevertheless, the usability of these approaches may differ depending on the geographical area and the particular DPI technology being employed. Tor bridges and other obfuscation techniques remain effective for evading detection in certain regions. In some cases, particularly in countries with sufficient government funding for advanced Deep Packet Inspection  technologies, even these advanced methods encounter difficulties. \citep{chinator}
 
 \subsection{Modern DPI techniques}
 Recent studies have taken an in-depth examination of the latest techniques employed by the Great Firewall of China to identify and prevent fully encrypted internet traffic. The main techniques are as so \citep{gfw}:
@@ -256,26 +328,26 @@ Since modern Deep Packet Inspection techniques have improved over time, effectiv
   \item \textbf{Encrypted Traffic Analysis}: Many old DPI methods stopped working as much as encryption became more popular as a way to protect user privacy. Modern DPI methods, on the other hand, can look at encrypted data without having to decrypt it first. This is done by looking at statistics, time, and other side-channel data, which lets the authorities guess what kind of data is being encrypted.
   \item \textbf{Active Probing and Response Analysis}: These days' DPI systems don't just watch data; they also probe it and respond to it. These systems can figure out what kind of traffic or application is going on by sending specific packets or requests and looking at the replies. This works especially well against protocols that are made to look like other types of data.\citep{dpiprobing}
 \end{itemize}
-All of these DPI advacements have resulted in the gradual decline of non-modern DPI evasion methods. The main methods for evading DPI have been proxies and VPNs. The use of known VPN servers or IP addresses, as well as specific traffic patterns and handshake features, can be detected and blocked by modern DPI techniques.
+All of these DPI advacements have resulted in the slow yet noticable decline of non-modern DPI evasion methods. The most prevalent methods of evading DPI have been proxies and VPNs. The use of known VPN servers or IP addresses, as well as specific traffic patterns and handshake features, can be detected and blocked by modern DPI techniques.
 
 Even anonymity networks like Tor, which aim to let users browse the internet anonymously and securely, are becoming more and more susceptible to DPI attacks. The unique features of Tor traffic, like packet timing and data transfer sizes, can now be detected by DPI systems, even when Tor employs obfuscation methods like pluggable transports.
 
-Traditional methods of evading DPI also include obfuscation and Secure Shell (SSH) tunneling. Even when communication is disguised or contained within other protocols, contemporary DPI systems can still detect SSH based on its unique handshake and session features.
+Traditional methods of evading DPI also include obfuscation and Secure Shell (SSH) tunneling. Even when communication is disguised or contained within other protocols, contemporary DPI systems can still detect SSH based on its unique handshake and session features. \citep{sshtunneling}
 
 Methods that masquerade as valid protocols (like HTTPS) in order to conceal harmful or restricted traffic are less successful when faced with current DPI. In order to distinguish between real protocol traffic and imposters, sophisticated algorithms examine time, packet size, and other subtle features. \citep{dpisslinspect}
 
 Data packets' genuine nature might be concealed by using traffic fragmentation and padding, which were common techniques in legacy evasion strategies. In order to determine the true type or content of the traffic, modern DPI can reconstruct broken packets by analyzing the padding.
-\section{Experimentation}
-\subsection{Established testbed}
-\subsection{Port switching}
-\subsection{Steganography}
-\subsection{Geneva}
-\subsection{Encryption tunneling}
-\section*{\centering Conclusion}
+%\section{Experimentation}
+%\subsection{Established testbed}
+%\subsection{Port switching}
+%\subsection{Steganography}
+%\subsection{Geneva}
+%\subsection{Encryption tunneling}
+%\section*{\centering Conclusion}
 
 \addcontentsline{toc}{section}{Reference List}
 \bibliography{refs.bib} % Entries are in the refs.bib file
-\addcontentsline{toc}{section}{Appendix}
+%\addcontentsline{toc}{section}{Appendix}
 % \include{appendix.tex}
 \end{document}
 # vim: set wrap:

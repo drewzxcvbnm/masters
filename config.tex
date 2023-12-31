@@ -234,3 +234,18 @@ splittopskip=2\baselineskip
 
 \surroundwithmdframed[style=mymdstyle]{lstlisting}
 \newmdenv[style=mymdstyle]{mdlisting}
+
+\usepackage{amsmath}
+\usepackage{cleveref}
+
+% Lua code to modify the label
+\begin{luacode}
+function fixDots(input)
+    out = string.gsub(input, "%.", "", 1)
+    tex.print(out)
+end
+\end{luacode}
+
+\newcommand{\fixdots}[1]{\directlua{fixDots("#1")}}
+\crefformat{figure}{Figure ~\fixdots{#2#1#3}}
+
