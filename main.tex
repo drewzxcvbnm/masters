@@ -337,17 +337,26 @@ Traditional methods of evading DPI also include obfuscation and Secure Shell (SS
 Methods that masquerade as valid protocols (like HTTPS) in order to conceal harmful or restricted traffic are less successful when faced with current DPI. In order to distinguish between real protocol traffic and imposters, sophisticated algorithms examine time, packet size, and other subtle features. \citep{dpisslinspect}
 
 Data packets' genuine nature might be concealed by using traffic fragmentation and padding, which were common techniques in legacy evasion strategies. In order to determine the true type or content of the traffic, modern DPI can reconstruct broken packets by analyzing the padding.
-%\section{Experimentation}
-%\subsection{Established testbed}
-%\subsection{Port switching}
-%\subsection{Steganography}
-%\subsection{Geneva}
-%\subsection{Encryption tunneling}
-%\section*{\centering Conclusion}
+\section{Experimentation}
+\subsection{Established testbed}
+\subsubsection{Router Configuration}
+\subsubsection{Router Client Configuration}
+\subsubsection{VPN Server Configuration}
+\subsubsection{Remote Client Configuration}
+\subsection{Method Evaluation Criteria}
+\subsubsection{Latency Testing}
+\subsubsection{Throughput Testing}
+%ETC Testing criteria
+
+\subsection{Port switching}
+\subsection{Steganography}
+\subsection{Geneva}
+\subsection{Encryption tunneling}
+\section*{\centering Conclusion}
 
 \addcontentsline{toc}{section}{Reference List}
 \bibliography{refs.bib} % Entries are in the refs.bib file
-%\addcontentsline{toc}{section}{Appendix}
-% \include{appendix.tex}
+\addcontentsline{toc}{section}{Appendix}
+%\include{appendix.tex}
 \end{document}
 # vim: set wrap:
