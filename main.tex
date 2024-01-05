@@ -39,6 +39,8 @@
     \sortitem{ML - Machine Learning}
     \sortitem{AI - Artificial Intelligence}
     \sortitem{SSH - Secure Shell}
+
+    \sortitem{VM - Virtual Machine}
 	\end{sortedlist}
 \end{adjustwidth}
 \addcontentsline{toc}{section}{Introductions}
@@ -338,16 +340,39 @@ Methods that masquerade as valid protocols (like HTTPS) in order to conceal harm
 
 Data packets' genuine nature might be concealed by using traffic fragmentation and padding, which were common techniques in legacy evasion strategies. In order to determine the true type or content of the traffic, modern DPI can reconstruct broken packets by analyzing the padding.
 \section{Experimentation}
+
 \subsection{Established testbed}
+When it comes to VPN encryption methods, building a virtual testbed is important for validating experimention results. This section is about the established testbed, including how it is set up, why certain tools were chosen, and how the network is structured overall. Vagrant and Libvirt were used to set up the testbed. These tools are essential for building and managing virtual machines (VMs) that mimic a real-world network environment so that VPN obfuscation methods can be tested.
+
+An open-source software application, Vagrant allows to create and manage portable virtual environments for software development. It comes with a straightforward command-line client for controlling these settings, and a standard for configuration files to specify the virtual machines needed for a certain project. Because of its versatility, ease of use, and extensive support for several virtualization providers, including Libvirt, Vagrant was chosen for this testbed.
+
+On the other hand, Libvirt presente withing itself a set of tools that can communicate with the virtualization features of newer Linux distributions (and other operating systems). As a management tool for platform virtualization, it is a C toolkit that interacts with Linux's virtualization features. The chosen choice for robust and scalable virtual networking experiments is due to its vast feature set and particularly well-known stability.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{img/topology}
+	\caption{Testbed network topology}
+  \label{fig:topology}
+\end{figure}
+
+The testbed consists of many virtual machines that are configured to imitate the major components of a VPN system as can be seen on \cref{fig:topology}, such as routers, VPN servers, and clients. The Vagrant configuration file defines four different VMs: vmrouter, routerslave, vpnserver, and vm4. Each VM is given unique network interfaces and IP addresses to ensure that it mimics the common network elements seen in a VPN situation.
+
+The network topology was created to resemble a standard VPN environment with multiple network segments. The vmrouter acts as the primary router, connecting two different subnets. This VM is of course important as it simulates the gateway through which traffic is routed. The second VM, routerslave, is configured to act as a client to the router within the network, providing more realism to the client-server architecture commonly seen in VPN networks.
+
+The VPN server is set up to be the vpnserver VM. This computer is very important to the testbed because it acts like the server side of a VPN. This is where different methods of encrypting data can be used and tried. The last VM, vm4, is a normal client in the network that is used to check how accessible and useful the VPN server is from the point of view of a client.
+
+In some VMs, the network's dual-interface design lets for a complicated routing situation that works like a real VPN, where data traffic often goes through multiple network segments. This set-up is great for trying obfuscation methods that might be affected by different network paths and settings.
+
+
 \subsubsection{Router Configuration}
 \subsubsection{Router Client Configuration}
 \subsubsection{VPN Server Configuration}
 \subsubsection{Remote Client Configuration}
 \subsection{Method Evaluation Criteria}
-\subsubsection{Latency Testing}
-\subsubsection{Throughput Testing}
-%ETC Testing criteria
-
+\subsubsection{Detection Resistance}
+\subsubsection{Client-Server Accessibility}
+\subsubsection{Latency}
+\subsubsection{Throughput}
 \subsection{Port switching}
 \subsection{Steganography}
 \subsection{Geneva}
