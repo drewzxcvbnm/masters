@@ -91,6 +91,20 @@
 
 \newcommand{\figurefix}[1]{\directlua{figurefix("#1")}}
 
+\begin{luacode}
+function fixTableNumbering(input)
+    out = string.gsub(input, "%.", "", 1)
+    tex.print(out)
+end
+\end{luacode}
+
+\newcommand{\fixtablenumbering}[1]{\directlua{fixTableNumbering("#1")}}
+
+\usepackage{caption}
+% Configure table caption style
+\DeclareCaptionFormat{myformat}{\hfill#1#2\\\textbf{#3}} 
+\captionsetup[table]{format=myformat, labelsep=quad, singlelinecheck=false, justification=centering}
+
 \usepackage{subcaption}
 \DeclareCaptionLabelFormat{custom}
 {%
@@ -206,6 +220,7 @@
 \usepackage[toc,page]{appendix}
 \usepackage{listings}
 \usepackage{fancyvrb}
+\usepackage{booktabs}
 \usepackage[framemethod=tikz]{mdframed}
 
 
@@ -248,4 +263,5 @@ end
 
 \newcommand{\fixdots}[1]{\directlua{fixDots("#1")}}
 \crefformat{figure}{Figure ~\fixdots{#2#1#3}}
+%\crefformat{table}{Table #2#1#3}
 
