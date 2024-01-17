@@ -61,10 +61,15 @@ Another way of providing VPN obfuscation is the integration of encrypted proxy t
 All of these methods, excluding port switching, bring with them a trade-off of in connection speed and throughput, 
 though of varying degrees.
 
-The thesis begins with an overview of VPN technology and then describes the various use cases for VPNs as well as the fundamental principles underlying their operation. It then describes the techniques used to detect VPN traffic. The following is a comprehensive examination of various obfuscation methods and their adaptation to evolving VPN traffic detection strategies. The goal of this analysis is to provide insight into VPN detection methodologies and obfuscation techniques through experimentation, literature analysis, qualitative assessment, and technical proficiency in the process developing a methodology by which one can consider selecting an obfuscation method in real-life scenarios. The bulk of the experimentation was conducted utilizing a virtual networking topology with the prime VPN being OpenVPN and ndpi being used as the DPI system.
+The thesis begins with an overview of VPN technology and then describes the various use cases for VPNs as well as the fundamental principles underlying their operation. It then describes the techniques used to detect VPN traffic. The following is a comprehensive examination of various obfuscation methods and their adaptation to evolving VPN traffic detection strategies. The goal of this analysis is to provide insight into VPN detection methodologies and obfuscation techniques through experimentation, literature analysis, qualitative assessment, and technical proficiency in the process developing a methodology by which one can consider selecting an obfuscation method in real-life scenarios. The bulk of the experimentation was conducted utilizing a virtual networking topology with the prime VPN being OpenVPN and ndpi being used as the DPI system. The questions this thesis aims to answer are as follows:
+\begin{itemize}
+  \item Which of the selected VPN obfuscatory methods are capable evading detection of the nDPI deep-packet inspection system within the provided virtual network topology?
+  \item How effective these methods are in terms of selected evaluation criteria?
+  \item Which method to choose in a real-life scenario?
+\end{itemize}
 
 \section{Literature}
-For the purposes of gaining insight into the topic of VPN obfuscation an extensive dive and analysis was conducted into the topic of VPNs, DPI and protocol obfuscation. Many related sources and research publications were found, though it may be noted that none of the research results found were of a similar nature to my own topic. Much of the research, was of a more focused nature, typically centering around a more narrow topic. None of them took a comparative approach to the VPN obfuscation methods. In addition, they approached the topic from a different perspective. The perspective of general data hiding, not taking VPNs into consideration, some examples being \cite{Geneva}, \cite{Stega} and \cite{symtcp} where there is no explicit mention of VPNs. In addition, many research publications were aimed towards the opposite, with goal of developing progressively new ways of detecting VPN traffic instead of hiding it, examples of thing being \cite{detection1}, \cite{detection2} and \cite{detection3}.
+For the purposes of gaining insight into the topic of VPN obfuscation an extensive dive and analysis was conducted into the topic of VPNs, DPI and protocol obfuscation. Many related sources and research publications were found, though it may be noted that none of the research results found were of a similar nature to my own topic. Much of the research, was of a more focused nature, typically centering around a more narrow topic. None of them took a comparative approach to the VPN obfuscation methods. In addition, they approached the topic from a different perspective. The perspective of general data hiding, not taking VPNs into consideration, some examples being \cite{Geneva}, \cite{Stega} and \cite{symtcp} where there is no explicit mention of VPNs. In addition, many research publications were aimed towards the opposite, with the goal of developing progressively new ways of detecting VPN traffic instead of hiding it, examples of thing being \cite{detection1}, \cite{detection2} and \cite{detection3}.
 
 \subsection{Search Strategy}
 The process of finding source of literature was incremental and partially iterative in its nature. At first, a list of topic specific terms and keywords was compiled: Deep packet inspection, network traffic analysis, censorship circumvention. 
@@ -285,7 +290,7 @@ Since Deep packet inspection goes farther than conventional packet filtering by 
 
 Many people, concerned about their right to privacy and freedom of expression, sought out ways to circumvent DPI as it gained traction. The use of non-standard protocols was one strategy. The original intention of DPI filters was to identify and regulate conventional internet traffic; however, users were able to circumvent these filters by employing less popular or custom-built protocols.
 
-The Tor network was another effective solution against DPI. The Onion Router, or Tor for short, is a system that aims to hide one's online identity. It conceals the user's location and activity from network monitors by rerouting their web traffic through a network of relays. At first, it seemed like a good way to avoid DPI—just connect to Tor and use it. The traffic looked like typical encrypted web traffic.
+The Tor network was another effective solution against DPI. The Onion Router, or Tor for short, is a system that aims to hide one's online identity. It conceals the user's location and activity from network monitors by rerouting their web traffic through a network of relays. At first, it may like seemed to be a reliable way to avoid DPI—simply connect to Tor and use it. The traffic looked like typical encrypted web traffic.
 
 \subsubsection{Advancement of DPI technologies}
 But things started to change as DPI tools got better. DPI systems got smarter and could look at more protocols and even decrypted traffic trends. They started to notice the signs of Tor activity and the use of non-standard protocols, which made these ways of hiding from surveillance less effective.
@@ -554,6 +559,7 @@ In the case of the vpnserver, an important part of controlling and protecting ne
 \end{itemize}
 
 \subsection{Remote Client Configuration}
+The last essential part is the virtual machine "vm4", also known as the remote client. In order to test different VPN scenarios, this machine is built to mimic a distant client in a network. Most notably this VM is used to test whether a VPN still works correctly after an obfuscation method was implemented and also remote client is the recipient of requests from the router client VM during testing for measuring latency and throughput.
 \subsubsection{Networking Interface Configuration}
 \begin{table}[H]
 	\caption{Network interfaces configuration on vm4}
@@ -569,7 +575,11 @@ In the case of the vpnserver, an important part of controlling and protecting ne
 \end{tabular}
   \label{tab:vm4_1}
 \end{table}
-
+As seen on the above \cref{tab:vm4_1}, the vm4 virtual machine has two network interfaces set up. The following are the interfaces:
+\begin{itemize}
+\item \textbf{Interface eth0}: Vagrant provides this as the default interface. IP address is 192.168.121.234 with the subnet mask 255.255.255.0, as seen in the IP address column. The ip route table indicates that the gateway for this interface, which is used to connect to the outside world, is set at 192.168.121.1.
+\item \textbf{Interface eth1}: This interface is allocated the IP address 192.168.52.52 with a subnet mask of 255.255.255.0. It is configured in Vagrant as a private network (via vm4.vm.network "private\_network", ip: "192.168.52.52"). Within the virtual network structure, this interface is meant for internal network connections.
+\end{itemize}
 \subsubsection{Routing Table Configuration}
 \begin{table}[H]
 	\caption{Routing table on vm4}
@@ -586,17 +596,99 @@ In the case of the vpnserver, an important part of controlling and protecting ne
 \end{tabular}
   \label{tab:vm4_2}
 \end{table}
+\begin{itemize}
+\item \textbf{Default Gateway (eth0)}: 192.168.121.1 is the gateway for the 0.0.0.0 default route. This suggests that this gateway is used to route any traffic that isn't intended for the local network.
+\item \textbf{Local Network (eth1)}: Since 192.168.52.0/24's route is directly connected, vm4 can speak with other computers on the network without the use of a gateway.
+\item \textbf{Additional Routes}: The machine's configuration for managing traffic on the eth0 interface is indicated by the routes connected to 192.168.121.0/24 and the particular IP 192.168.121.1.
+\end{itemize}
 
 \section{Experimentation Results}
+Experimentation with VPN obfuscation approaches is explained in depth, along with the findings, in this section. To determine how well each approach performed in different contexts, it was subjected to extensive testing in a controlled environment.
+
+Resistance to detection, latency, throughput, and client-server accessibility are all part of the comprehensive set of evaluation criteria. With practical uses like evading censorship, protecting personal information, or communicating securely in dangerous settings in mind, the goal is to weigh the pros and cons of each approach.
+
+The section concludes with a comparative analysis. A detailed table summarizing the results of each VPN obfuscation method in comparison to the specified criteria is included in this analysis. In addition, this part presents a new approach to using the collected data to choose the best VPN obfuscation method for individual users and their unique situations.
+
 \subsection{Method Evaluation Criteria}
 \subsubsection{Detection Resistance}
-\subsubsection{Client-Server Accessibility}
+The most important measure for VPN obfuscation is detection resistance. A simple yet effective way to evaluate the practicality of an approach, this criterion assigns a pass or fail grade to its efficacy. Obfuscating VPN traffic is primarily done to avoid detection by Deep Packet Inspection technologies. Therefore, obfuscation effectiveness is proportional to how well it masks VPN traffic from DPI devices.
+
+Determining how resistant a VPN obfuscation approach is to detection is a complex task. The well-known network protocol analyzer Wireshark is one of the main tools used in this evaluation. For delving into the complexities of network traffic, it is an indispensable tool. We get a full picture of how DPI interacts with VPN data by combining Wireshark with nDPI, a powerful open-source DPI tool. To better comprehend the detection resistance of different obfuscation strategies, nDPI enhances Wireshark's capabilities and permits a more thorough examination of packet data.
+
+
+It should be kept in mind that no obfuscation technique is foolproof. Methods that work now in the provided testbed may become obsolete in the near future due to the dynamic nature of internet surveillance. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{img/before}
+	\caption{WireShark capture of VPN traffic before obfuscation}
+  \label{fig:before}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{img/after}
+	\caption{WireShark capture of VPN traffic after obfuscation}
+  \label{fig:after}
+\end{figure}
+The above \cref{fig:before} and \cref{fig:after} serve as an example of how the traffic looks like before and after successful obfuscation. The first image shows the traffic before obfuscation, and the second shows it after obfuscation. The traffic is identified to be OpenVPN in the first image, but it is completely unknown in the second. This is a good example of how a VPN obfuscation method should work.
+
 \subsubsection{Latency}
+The term "latency" describes the time it takes for a data packet to travel from its origin to its final destination. Usually, milliseconds (ms) are used to assess latency. Common methods for gauging network latency include the "ping" and "traceroute" commands, which track how long it takes for a packet to go from sender to receiver. However, since it is possible that ICMP requests are prioritized by an operating system, which would lead to the ICMP requests getting better latency results than what might be expected in real-life scenarios. As such, latency is tested by making a number of simple HTTP requests.
+
+One of the most important metrics in network communications is latency, which is the amount of time it takes for a data packet to go from its origin to its final destination. Milliseconds (ms) is the standard unit of measurement for latency, which has far-reaching effects on the speed of network communications, the quality of the user experience, and the overall performance of systems in a wide range of applications, from basic web browsing to sophisticated real-time data processing.
+
+Tools such as 'ping' and 'traceroute' are frequently used for measuring latency. The 'ping' command calculates the time it takes for a message to travel from its source to its destination. But 'ping' isn't perfect; different operating systems give varying priorities to ICMP requests, so the results could be deceiving. 
+
+In my testing methodology, latency is assessed by making HTTP requests. This method is chosen to more accurately mimic the user's real-world interaction with the network. HTTP requests are a standard part of web browsing and online communications, thus providing a realistic measure of the latency that users are likely to experience.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{img/latency}
+	\caption{Latency test results}
+  \label{fig:latency}
+\end{figure}
+
 \subsubsection{Throughput}
+The amount of data successfully carried from one point to another within a particular time frame is represented by throughput, a crucial parameter in networking and computer systems. Bits per second (bps), kilobits per second (kbps), megabits per second (Mbps), and gigabits per second (Gbps) are typical units of measurement. A network's throughput—the rate at which data actually moves through the network—is a crucial performance indicator.
+
+Though it may be noted that throughput and bandwidth are similar but different concepts. The real pace at which data may be moved over a network is known as throughput, whereas bandwidth is the theoretical maximum rate. Factors such as protocol overhead, packet loss, and network latency cause throughput to be lower than bandwidth. So in real-life, throughput is more helpful than bandwidth in determining network performance.
+
+For measuting throughput the tool "iperf"" was utilized. 
+It's an open-source program that works with most operating systems and has a command line interface. Iperf is a popular tool for testing and debugging network performance; it measures the maximum throughput a network can manage.
+Two computers, a server and a client, need to be connected for Iperf to function. The Iperf client establishes a connection to the server and transmits data to it, while the Iperf server listens on a certain port. A brief overview of Iperf's usual usage is as follows:
+\begin{itemize}
+\item The first step in configuring Iperf is to choose a computer to function as the server and another to connect to the network. While clients initiate data transfers, servers listen for incoming connections.
+\item After establishing a connection, the Iperf client starts transmitting data to the server. A number of parameters can be set to control this data transfer, including the test duration, the size of the data blocks, and the protocol (TCP in the latter case).
+\item Measurement and Output: Iperf tracks the data transfer duration and amount. The system then computes the throughput and generates a performance report, showing the throughput's average and peak values throughout the testing time.
+\end{itemize}
+With Iperf's advanced features, users can test the network for jitter, packet loss, and duplex connection performance, among other things. 
+The following figure gives a demonstration of the output Iperf generates:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{img/iperf}
+	\caption{Throughput test results}
+  \label{fig:iperf}
+\end{figure}
+
+
+\subsubsection{Client-Server Accessibility}
+Client-Server Accessibility can also be a crucial criteria depending on the circumstances. Most of the explored obfuscation methods require the user to access and make changes on the side of the VPN server, but if the user does not have access to the VPN server or is not allowed to make changes to it, this criteria becomes important. The ability of a VPN obfuscation method to be used without any changes to the VPN server is important to its success. The more accessible a method is to the client, the more likely it is to be effective in a real-world situation. This criteria is also boolean, meaning that a method either passes or fails.
 \subsection{Port switching}
+\subsubsection{Concept and Overview}
+\subsubsection{Method Implementation}
+\subsubsection{Evaluation}
 \subsection{Steganography}
+\subsubsection{Protocol Field Stegonagraphy}
+\subsubsection{Multimedia Embedding Stegonagraphy}
+\subsubsection{Method Implementation}
+\subsubsection{Evaluation}
 \subsection{Geneva}
+\subsubsection{Concept and Overview}
+\subsubsection{Method Implementation}
+\subsubsection{Evaluation}
 \subsection{Encryption tunneling}
+\subsubsection{Concept and Overview}
+\subsubsection{Method Implementation}
+\subsubsection{Evaluation}
 \section*{\centering Conclusion}
 
 \addcontentsline{toc}{section}{Reference List}
