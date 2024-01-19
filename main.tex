@@ -674,98 +674,190 @@ The following figure gives a demonstration of the output Iperf generates:
 Client-Server Accessibility can also be a crucial criteria depending on the circumstances. Most of the explored obfuscation methods require the user to access and make changes on the side of the VPN server, but if the user does not have access to the VPN server or is not allowed to make changes to it, this criteria becomes important. The ability of a VPN obfuscation method to be used without any changes to the VPN server is important to its success. The more accessible a method is to the client, the more likely it is to be effective in a real-world situation. This criteria is also boolean, meaning that a method either passes or fails.
 \subsection{Port switching}
 \subsubsection{Concept and Overview}
+One way to obfuscate a VPN is by adjusting the port that the server uses to communicate with the network. When discussing computer networks, the term "port" refers to either a physical location or an abstract concept that serves as a communication endpoint. VPN services usually employ widely recognizable and well-known ports. It is possible to evade Deep Packet Inspection (DPI) technologies by masking VPN traffic as another sort of communication and switching these ports.
+
+In order to monitor or prevent VPN traffic, many network managers and national firewalls utilize DPI technologies. These programs examine data packets and identify them according to properties such service type, source, and destination. Because DPI systems can detect standard VPN ports, they can restrict or throttle VPN traffic.
+
+A user can make their VPN communication look like any other kind of valid traffic by altering the port number of the VPN server. One way to make VPN traffic seem like conventional secure online browsing is to set it to run on port 443, which is the standard port for HTTPS communication. The idea behind this approach is that most DPI systems won't censor or overly analyze traffic on popular ports like 443 because it would interfere with everyday internet operations.
+
+While port switching can get around simple DPI methods, it might not work against more advanced DPI systems that look at things like data patterns, packet size, and time.
 \subsubsection{Method Implementation}
+Changing the settings of the VPN server software is usually the way to go when implementing port switching in a VPN setting. If you're using OpenVPN, for instance, you can accomplish this by modifying the server configuration file's 'port' directive. Having administrator privileges on the VPN server is necessary for this procedure.
+
+Changing the OpenVPN port is a fairly straightforward process and involves the following steps:
+\begin{itemize}
+\item To access the server configuration file, titled server.conf.
+\item Find the line that has the directive for the port. The current port number that the OpenVPN server listens on is specified.
+\item Put in a new value for the port number. Port 443 is often used for HTTPS communication, for example, therefore it's a good choice.
+\item To apply the changes, save the configuration file and restart OpenVPN.
+\item The client's configuration files should also be adjusted to reflect the new server port.
+\end{itemize}
+
+This procedure shows that access to the server is required to accomplish port swapping. The new port must also be enabled on any network devices (such as routers or firewalls) that control the server's traffic.
 \subsubsection{Evaluation}
+In regards to the specified criteria for assessing port switching:
+\begin{itemize}
+\item \textbf{Resistance to Detection}: When tested against state-of-the-art DPI technologies, this strategy tends to fall flat. Due to their comprehensive analysis, DPI systems such as nDPI are able to detect OpenVPN traffic irrespective of the port number. Thus, port flipping may provide some obfuscation, but it isn't a great way to get past advanced DPI systems.
+\item \textbf{Client-Server Accessibility}: In order to implement port switching, it is necessary to have access to the VPN server. Due to the fact that proper communication requires congruence of server and client settings, it cannot be considered a client-side solution. Due to this requirement, the method cannot be used in situations where the user does not have the necessary permissions or access to the server.
+\item \textbf{Latency}: The latency effect is not directly proportional to the port number of the VPN server. The delay is unchanged because the method merely entails rerouting traffic through an other port; it does not impose any extra processing or routing overhead.
+\item \textbf{Throughput}: is also unaffected by changing ports. Since the approach does not incorporate any extra data encryption or rerouting that may decrease the traffic, the data transmission rate remains constant with the VPN service's baseline performance.
+\end{itemize}
+
 \subsection{Steganography}
-% Write what steganography is about.
+The practice of steganography dates back thousands of years and involves concealing data within apparently harmless carriers. The field of steganography has expanded in the field of digital communications to include a wide range of methods for concealing information within many digital formats, including but not limited to photos, audio, video files, network protocols, and more.
 \subsubsection{Protocol Field Stegonagraphy}
-% write about what protocol field steganography is about (hiding data in redundant protocol fields)
+Protocol Field Steganography is a sophisticated method of obfuscation which involves embedding secret information within the redundant or unused fields of network protocol headers. Unlike traditional steganography, which primarily focuses on media files, this technique leverages the inherent structure of network protocols. Since many fields in protocol headers, like IP or TCP headers, are often unused or contain predictable values, they can be repurposed to covertly transmit data.
+
+The essence of Protocol Field Steganography lies in its ability to blend in with regular network traffic. By utilizing the unused areas of protocol headers, data can be transmitted in a way that is nearly indistinguishable from normal traffic. This method is particularly effective against Deep Packet Inspection (DPI) as the embedded data does not alter the expected patterns of the protocol. Moreover, since this method does not significantly alter the packet size or structure, it maintains a low profile, making detection considerably more challenging.
+
+One of the primary advantages of Protocol Field Steganography is its low impact on network performance. Since it utilizes existing protocol structures, it does not significantly increase packet size, thus maintaining network efficiency and avoiding bandwidth overhead. However, its capacity for data transmission is limited by the size and number of available unused fields in the protocol headers. Additionally, implementing this technique requires a deep understanding of network protocols and the ability to manipulate packet headers, which may pose a challenge for average users.
 \subsubsection{Multimedia Embedding Stegonagraphy}
-% write about what Multimedia Embedding steganography is about (hiding data in images for example)
-\subsubsection{Method Implementation}
-% Write about how chose to use Multimedia Embedding steganography to hide data in images because image data is encrypted, so it is hard to detect the hidden data with DPI
-% Write about how I implemented a soltution for vpn obfuscation using steganography:
-% Describe how I wrote a python script that takes a file and hides it in an image (using Least Significant Bit method combined with a simple key-dependent embedding mechanism)
-% and can also receive steganographed image and extracts the hidden data from it
-% Configured both client and server to route all network traffic through the steganography scripts by using iptables NFQUEUE and python library scapy instead of Raw Sockets to not have to deal with IP fragmentation and TCP segmentation
-% Since the chosen image is about 13kb in size, the maximum amount of data that can be hidden in it is about 1664 bytes, calculated with the formula:
-% (image_size_in_bytes / bytes_per_pixel) * number_of_least_significant_bits_to_use / 8
-\subsubsection{Evaluation}
-% Detection resistance: pass (nDPI failed to identify the traffic as OpenVPN)
-% Client-Server Accessibility: fail (requires access to the VPN server to set up receiving the steganographed image)
-% Latency increses by 560% percent
-% Throughput decreases by 88% percent
-%
-% Should be noted that tests were performed with a 13kb image, in a virutal environment and with a custom made python script in which optimization was not a high priotity so results may vary in a real world scenario when implementing this method.
-\subsection{Geneva}
-% Write what Geneva automated censorship evasion algorithm is about.
-\subsubsection{Concept and Overview}
-% Write about how Geneva works and how it is used to evade censorship
-% Explain Censorship Evasion Strategies and Strategy DNA
-% Here is some info about the geneva:
-% ```
-%
-% ## Censorship Evasion Strategies
-% A censorship evasion strategy is simply a _description of how network traffic should be modified_. A strategy is _not
-% code_, it is a description that tells Geneva's stratgy engine how it should manipulate network traffic. The goal of a censorship evasion strategy is to modify the network traffic in a such a way that the censor is unable to censor it, but the client/server communication is unimpacted.  
-% 
-% A censorship evasion strategy composed of one or more packet-level building blocks. Geneva's core building blocks are:
-% 1. `duplicate`: takes one packet and returns two copies of the packet
-% 2. `drop`: takes one packet and returns no packets (drops the packet)
-% 3. `tamper`: takes one packet and returns the modified packet
-% 4. `fragment`: takes one packet and returns two fragments or two segments
-% 
-% Since `duplicate` and `fragment` introduce _branching_, these actions are composed into a binary-tree structure called an _action tree_. Each tree also has a _trigger_. The trigger describes which packets the tree should run on, and the tree describes what should happen to each of those packets when the trigger fires. Once a trigger fires on a packet, it pulls the packet into the tree for modifications, and the packets that emerge from the tree are sent on the wire. Recall that Geneva operates at the packet level, therefore all triggers are packet-level triggers. 
-% 
-% Multiple action trees together form a _forest_. Geneva handles outbound and inbound packets differently, so strategies are composed of two forests: an outbound forest and an inbound forest.
-% 
-% ### Strategy DNA
-% 
-% These strategies can be arbitrarily complicated, and Geneva defines a well-formatted string syntax for
-% unambiguously expressing strategies.
-% 
-% A strategy divides how it handles outbound and inbound packets: these are separated in the DNA by a 
-% "\\/". Specifically, the strategy format is `<outbound forest> \/ <inbound forest>`. If `\/` is not
-% present in a strategy, all of the action trees are in the outbound forest. 
-% 
-% Both forests are composed of action trees, and each forest is allowed an arbitrarily many trees. 
-% 
-% Action trees always start with a trigger, which is formatted as: `[<protocol>:<field>:<value>]`. For example, the trigger: `[TCP:flags:S]` will run its corresponding tree whenever it sees a `TCP` packet with the `flags` field set to `SYN`. If the corresponding action tree is `[TCP:flags:S]-drop-|`, this action tree will cause the engine to drop any `SYN` packets. `[TCP:flags:S]-duplicate-|` will cause the engine to duplicate any SYN packets. 
-% 
-% Syntactically, action trees end with `-|`.
-% 
-% Depending on the type of action, some actions can have up to two children (such as `duplicate`). These are represented
-% with the following syntax: `[TCP:flags:S]-duplicate(<left_child>,<right_child>)-|`, where
-% `<left_child>` and `<right_child>` themselves are trees. If `(,)` is not specified, any packets
-% that emerge from the action will be sent on the wire. If an action only has one child (such as `tamper`), it is always the left child. `[TCP:flags:S]-tamper{<parameters>}(<left_child>,)-|`
-% 
-% Actions that have parameters specify those parameters within `{}`. For example, giving parameters to the `tamper` action could look like: `[TCP:flags:S]-tamper{TCP:flags:replace:A}-|`. This strategy would trigger on TCP `SYN` packets and replace the TCP `flags` field to `ACK`. 
-% 
-% Putting this all together, below is the strategy DNA representation of the above diagram:
-% ```
-% [TCP:flags:A]-duplicate(tamper{TCP:flags:replace:R}(tamper{TCP:chksum:corrupt},),)-| \/
-% ```
-% 
-% Geneva has code to parse this strategy DNA into strategies that can be applied to network traffic using the engine. 
-% 
-% Note that due to limitations of Scapy and NFQueue, actions that introduce branching (`fragment`, `duplicate`) are
-% disabled for incoming action forests. 
-% ```
+Multimedia Embedding Steganography takes a different approach by embedding data directly into digital media files such as images, audio, or video. This technique is particularly popular with images due to their ubiquity and the high tolerance for slight alterations without perceptible changes. One common method employed in image steganography is the Least Significant Bit (LSB) technique, where information is hidden in the least significant bits of the pixel values, thus altering the image in a way that is imperceptible to the human eye.
+
+The strength of Multimedia Embedding Steganography lies in its ability to hide large amounts of data effectively while maintaining the original appearance and properties of the carrier medium. This method is especially resistant to casual inspection and basic automated analysis. However, it may be more susceptible to advanced steganalysis techniques, especially if the patterns of embedding are not carefully managed or if the alterations to the medium are too systematic.
+
+Implementing Multimedia Embedding Steganography requires a careful balance between the amount of data to be embedded and the preservation of the medium’s integrity. The key challenge is to embed data in a way that avoids detection while ensuring that the carrier medium remains functional and unchanged to casual observation. This requires sophisticated algorithms that can subtly manipulate the medium while maintaining its original properties.
 
 \subsubsection{Method Implementation}
-% Write about how I executed the Geneva engine with the strategy: [TCP:flags:PA]-fragment{tcp:8:True}(,fragment{tcp:4:True})-|
-% Describe the strategy in detail
+For my thesis, I chose to focus on Multimedia Embedding Steganography, specifically using images as the carrier medium. This decision was driven by the inherent challenge of hiding data within a medium that is routinely subjected to analysis and inspection, making it a compelling case for robust steganography.
+
+I developed a Python script that employs the Least Significant Bit (LSB) method combined with a key-dependent embedding mechanism. The LSB method involves altering the least significant bits of the pixel values in an image to encode the hidden data. This method is effective as it causes minimal perceptible changes to the image, thus maintaining its appearance while embedding the secret data.
+
+To enhance the security and robustness of the embedding process, I integrated a simple key-dependent mechanism. This mechanism requires a secret key for both embedding and extracting the data, adding an extra layer of security to the process. The use of a key ensures that even if the presence of steganography is suspected or detected, the hidden data remains inaccessible without the correct key.
+
+The implementation involved configuring both the client and the server to route all network traffic through the steganography scripts. This was achieved using iptables NFQUEUE and the Python library Scapy. NFQUEUE is a feature of the Netfilter framework in the Linux kernel, designed to delegate the handling of packet filtering and manipulation to user-space programs. When network packets match certain iptables rules, they are enqueued to NFQUEUE, where a user-space application, in this case, our steganography script, can inspect, modify, or even drop them. This interaction is facilitated by the libnetfilter\_queue library, which provides an API for queuing and retrieving packets from the kernel to user space. In order to route all network traffic through the steganography script, iptables rules were configured to redirect all packets to NFQUEUE with the command: \codeword{iptables -A INPUT -j NFQUEUE --queue-num 1
+} for all inbound packets and \codeword{iptables -A OUTPUT -j NFQUEUE --queue-num 1} for all outbound packets. This ensures that all packets are enqueued to NFQUEUE, where they can be intercepted and manipulated by the steganography script.
+
+Scapy, a powerful Python library for packet manipulation, was chosen to handle these packets in user space. It provides a more intuitive and high-level interface for packet analysis and manipulation compared to raw sockets, simplifying the process. The use of Scapy, in conjunction with NFQUEUE, allowed for efficient and effective interception and modification of network traffic. This approach also elegantly circumvents the complexities of IP fragmentation and TCP segmentation, which can be challenging when using raw sockets. By leveraging NFQUEUE and Scapy together, one can seamlessly integrate the steganography process into the network flow, significantly simplifying the implementation while ensuring the effectiveness and reliability of the steganography process.
+
+The chosen image for the steganography process was approximately 13kb in size. Based on this size, the maximum amount of data that could be effectively hidden within the image was calculated to be about 1664 bytes. This calculation was derived using the formula:
+\begin{equation}
+(isz / bpp) * lsb / 8
+\end{equation}
+%\text{where} isz \text{- image size in bytes,} \\
+%bpp - \text{bytes per pixel,} \\
+%lsb - \text{number of least significant bits to use for embedding}
+%where:
+%\begin{description}
+%\item[R] is Racoon
+%\item[E] is Elephant
+%\end{description}
+This formula takes into account the size of the image, the number of bytes per pixel, and the number of bits used for embedding the data.
+
 \subsubsection{Evaluation}
-% Detection resistance: pass (nDPI failed to identify the traffic as OpenVPN)
-% Client-Server Accessibility: pass (solution can be implemented purely from client side)
-% Latency increses by 14% percent
-% Throughput decreases by 8% percent
-%
-% Should be noted that tests were performed with a 13kb image, in a virutal environment and with a custom made python script in which optimization was not a high priotity so results may vary in a real world scenario when implementing this method.
-\subsection{Encryption tunneling}
+In evaluating the effectiveness of the implemented steganography method, the following results were obtained:
+\begin{itemize}
+\item Detection Resistance: The method successfully passed the detection test, with nDPI failing to identify the traffic as originating from OpenVPN. This indicates a high level of effectiveness in evading Deep Packet Inspection techniques.
+\item Client-Server Accessibility: The implementation was evaluated as a failure in terms of client-server accessibility. This is because the method requires access to both the client and the server for setting up and receiving the steganographed image, making it less accessible for scenarios where server access is restricted or not possible.
+\item Latency Impact: The implementation resulted in a significant increase in latency, measured at a 560\% increase. This substantial rise in latency is attributed to the additional processing required for embedding and extracting data from the images as well as the increased size of the message being sent.
+\item Throughput: The throughput observed a decrease of 88\%, which is a considerable reduction. This decrease is primarily due to the added overhead of processing the steganography and the limitations imposed by the size of the carrier image.
+\end{itemize}
+It should be noted that these tests were conducted in a controlled virtual environment using a custom-made Python script. The script was not optimized for performance, and the results may vary in real-world scenarios when implementing this method with optimizations and in different operational contexts.
+
+\subsection{Geneva}
+The Geneva (Genetic Evasion) algorithm represents a significant advancement in the field of Internet censorship evasion. Developed with the aim to automate the discovery of censorship evasion strategies, Geneva adopts a unique approach to bypass deep packet inspection (DPI) techniques employed by state-level censors.
 \subsubsection{Concept and Overview}
+Geneva operates on the principle of evolving network traffic patterns to evade censorship. It employs a genetic algorithm to automatically generate and test different strategies for bypassing censorship, adapting to the censor's DPI techniques. This process involves modifying network traffic in a way that avoids detection and blocking by censors, yet maintains the integrity of client-server communication.
+\subsubsection{Censorship Evasion Strategies}
+At the core of Geneva's functionality are censorship evasion strategies. These strategies are not coded algorithms but rather descriptions of how network traffic should be modified to evade censorship. Geneva's strategy engine uses these descriptions to manipulate network traffic at the packet level, aiming to circumvent censorship mechanisms without disrupting the normal flow of data between the client and the server.
+
+Geneva's basic building blocks for these strategies include actions like duplicate, drop, tamper, and fragment. These actions are applied to network packets to generate a variety of effects. For instance, duplicate creates two copies of a packet, while tamper modifies a packet in a specified manner.
+
+An essential aspect of these strategies is the use of action trees, a binary-tree structure where each tree has a trigger and a set of actions. The trigger determines which packets the tree should act upon, and the tree dictates the modifications to be applied to these packets. These triggers are packet-level triggers, ensuring that Geneva operates seamlessly at the network packet level.
+
+Strategies in Geneva are composed of two forests: one for outbound traffic and another for inbound traffic. The strategy DNA is a well-formatted string syntax that unambiguously expresses these strategies. Each strategy specifies how it handles outbound and inbound packets, differentiated by the "\textbackslash /" symbol in its DNA.
+
+\subsubsection{Strategy DNA}
+The Strategy DNA in Geneva is a critical component that defines the manipulation of network traffic to bypass censorship. It outlines the blueprint for how Geneva's engine interacts with and modifies network packets.
+
+\paragraph{Structure and Syntax}
+\begin{itemize}
+    \item \textbf{Trigger}: Each strategy begins with a trigger, formatted as \texttt{[<protocol>:<field>:<value>]}. This trigger condition, when met, initiates the defined actions. For instance, \texttt{[TCP:flags:SYN]} would activate actions on TCP packets with the SYN flag.
+
+    \item \textbf{Actions}: Following the trigger is a series of actions, represented by keywords like \texttt{duplicate}, \texttt{drop}, \texttt{tamper}, and \texttt{fragment}, dictating the operations on the packets.
+
+    \item \textbf{Branching and Parameters}:
+    \begin{itemize}
+        \item \textit{Branching}: Actions like \texttt{duplicate} introduce branching, represented by syntax illustrating left and right children, e.g., \texttt{duplicate(tamper{}, fragment{})}.
+        \item \textit{Parameters}: Actions such as \texttt{tamper} include parameters within \texttt{\{\}}, specifying the exact modifications, like \texttt{tamper\{TCP:flags:replace:ACK\}}.
+    \end{itemize}
+\end{itemize}
+
+An example is \codeline{
+\texttt{[TCP:flags:A]-duplicate(tamper\{TCP:flags:replace:R\}(tamper\{TCP\\:chksum:corrupt\},),)-| \textbackslash/}
+}
+, dissected as follows:
+\begin{itemize}
+    \item \textbf{Trigger}: \texttt{[TCP:flags:A]} - Activates for TCP packets with the ACK flag.
+    \item \textbf{Actions}:
+    \begin{itemize}
+        \item \texttt{duplicate} - Duplicates the packet for multiple outcomes.
+        \item \texttt{tamper\{TCP:flags:replace:R\}} - Replaces the TCP flag from ACK to RST on one path.
+        \item \texttt{tamper\{TCP:chksum:corrupt\}} - Corrupts the TCP checksum on another path.
+    \end{itemize}
+    \item \textbf{Branch Closure}: \texttt{-|} - Ends the action tree.
+    \item \textbf{Outbound and Inbound Separation}: \texttt{\textbackslash/} - Differentiates between strategies for outbound and inbound traffic.
+\end{itemize}
+
+\paragraph{Implications and Effectiveness}
+Strategy DNA's format allows Geneva to define complex packet manipulations succinctly. It provides flexibility to create diverse strategies against various DPI techniques. The ability to specify manipulations for both outbound and inbound traffic ensures effectiveness against bidirectional traffic inspection. This format simplifies strategy creation and allows for rapid deployment and testing in response to evolving censorship methodologies.
+
+
 \subsubsection{Method Implementation}
+In the practical implementation of the Geneva algorithm, I specifically executed the Geneva engine using the strategy \codeline{[TCP:flags:PA]-fragment\{tcp:8:True\}(,fragment\{tcp:4:True\})-|}. This strategy was selected for its potential to intricately manipulate TCP traffic and effectively evade DPI systems used for Internet censorship.
+
+The chosen strategy operates on TCP packets with the PA (PUSH-ACK) flag set. The strategy is composed of two main actions: fragmenting these TCP packets first into 8-byte segments, and then further into 4-byte segments. This dual fragmentation approach was designed to disrupt the typical packet size and structure that DPI systems rely on for traffic analysis and filtering.
+
+\begin{itemize}
+\item The first action, fragment\{tcp:8:True\}, breaks down the TCP packets into segments of 8 bytes each. This fragmentation disrupts the standard packet size, making it more challenging for DPI tools to analyze and categorize the traffic based on size and structure.
+\item The second action, fragment\{tcp:4:True\}, further divides these segments into smaller 4-byte units. This additional fragmentation step adds an extra layer of complexity to the packet structure, further obscuring the traffic from DPI analysis.
+\end{itemize}
+Running the engine itself is a very simple matter. The Geneva engine is provided as a Python script that can be executed from the command line. The following command can be used to run the engine: \verb|python3 engine.py --server-port 80 --strategy "..." --log debug |
+
 \subsubsection{Evaluation}
+In evaluating this implementation of Geneva, several key criteria were considered:
+\begin{itemize}
+\item Detection Resistance: The strategy successfully passed the detection resistance test, as nDPI (a widely used DPI tool) failed to identify the traffic as OpenVPN. This indicates a high level of effectiveness in evading DPI systems.
+\item Client-Server Accessibility: This strategy can be implemented entirely from the client side, which significantly enhances its usability and deployability in various scenarios where server-side modifications are not feasible.
+\item Latency Impact: The implementation resulted in a 14\% increase in latency. While this indicates a notable impact, it remains within acceptable limits considering the benefit of evading DPI.
+Throughput: There was an 8\% decrease in throughput, which is a trade-off for the increased complexity of the packet manipulation required to bypass DPI systems.
+\end{itemize}
+
+\subsection{Encryption tunneling}
+Encryption tunneling is a sophisticated method used in Virtual Private Networks (VPNs) to enhance the security and privacy of data transmission. This technique involves creating an additional secure tunnel, which encapsulates the primary VPN traffic. This added layer of encryption can be particularly effective in preventing Deep Packet Inspection (DPI) from identifying and possibly blocking VPN traffic.
+\subsubsection{Concept and Overview}
+Encryption tunneling, specifically through tools like stunnel, is a crucial method in circumventing DPI technologies. Stunnel is a software application used to provide an extra encryption layer, making VPN traffic appear as regular HTTPS traffic. This process involves wrapping OpenVPN traffic in SSL/TLS encryption, which is the same type of encryption used in secure web transactions. By mimicking HTTPS traffic, stunnel makes it challenging for DPI systems to distinguish this traffic from regular, secure web browsing activities.
+
+The effectiveness of stunnel lies in its encryption methods. It uses Secure Sockets Layer (SSL) and Transport Layer Security (TLS) protocols, the foundations of secure internet communication. These protocols provide confidentiality and integrity of the data in transit. They achieve this through a combination of symmetric-key cryptography for data privacy (where the same key is used for both encrypting and decrypting the data), public-key cryptography for key exchange (allowing secure transmission of the symmetric key), and digital certificates for server authentication.
+\subsubsection{Method Implementation}
+The implementation of stunnel for encrypting OpenVPN traffic on Linux involves configuring both the VPN server and the client. 
+\noindent \textbf{Server-Side Configuration:}
+\begin{itemize}
+\item Generate SSL Certificates: First step was to create an SSL certificate and key for stunnel. This was done using OpenSSL with commands to generate a private key and a certificate. The generated certificate and key are then combined into a single file used by stunnel.
+\item Configure stunnel: Then the stunnel configuration file, located at /etc/stunnel/stunnel.conf, was edited. In this file, the port stunnel should listen on (443) and the port to forward the traffic to (OpenVPN server port) were specified. Also, the path to the combined certificate and key file were included.
+\item Enable and Start stunnel: After configuration, the stunnel service was enabled and started using the system's service management commands (systemd commands in my case).
+\end{itemize}
+
+\noindent \textbf{Client-Side Configuration:}
+\begin{itemize}
+\item Configure stunnel: On the client side, the stunnel configuration involves specifying the server's address and the port to connect to (matching the listening port specified in the server's stunnel configuration). 
+\item Integrate with OpenVPN: The OpenVPN client configuration was modified to route traffic through stunnel. This involved adjusting the OpenVPN client configuration file to connect to stunnel's local listening port.
+\item Start stunnel and OpenVPN Client: lastly, the stunnel service on the client was started, followed by initiating the OpenVPN connection. Ensure that stunnel is running before connecting with OpenVPN.
+\end{itemize}
+
+\subsubsection{Evaluation}
+\paragraph{Detection Resistance}
+In terms of detection resistance, stunnel encapsulating OpenVPN traffic has shown considerable success. In tests using nDPI, a common DPI tool, the encrypted traffic was not identified as OpenVPN. This result indicates that stunnel effectively disguises VPN traffic as regular HTTPS traffic, making it difficult for DPI technologies to detect and block it.
+
+\paragraph{Client-Server Accessibility}
+However, the implementation of stunnel scores lower in client-server accessibility. Since the solution requires access and configurations on both the client and the VPN server, it is not a client-only solution. This requirement can be a significant hurdle in scenarios where users do not have the necessary permissions or technical knowledge to configure the server-side settings.
+
+\paragraph{Latency Impact}
+The latency impact of implementing stunnel with OpenVPN was observed to be a 6\% increase. This increase is a trade-off for the enhanced security and undetectability provided by the additional encryption layer. The slight latency increase is often considered acceptable given the benefits of bypassing DPI and maintaining secure communication.
+
+\paragraph{Throughput}
+Throughput, on the other hand, experienced a decrease of about 10\%. This reduction is attributed to the additional processing required for encrypting and decrypting data packets in the stunnel layer. While this decrease in throughput is noticeable, it is a common consequence of enhanced security measures in VPN technologies.
+
 \section*{\centering Conclusion}
 
 \addcontentsline{toc}{section}{Reference List}

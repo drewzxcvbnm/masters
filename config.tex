@@ -168,8 +168,17 @@ end
 \newcommand\insertdate[1][\today]{\vfill\begin{flushright}#1\end{flushright}}
 \usepackage{csquotes}
 \usepackage{plantuml}
+\usepackage{soul}
 \usepackage{xcolor}
 \definecolor{light-gray}{gray}{0.95}
+\newcommand{\ctext}[3][RGB]{%
+  \begingroup
+  \definecolor{hlcolor}{#1}{#2}\sethlcolor{hlcolor}%
+  \hl{#3}%
+  \endgroup
+}
+
+\newcommand{\codeline}[1]{\ctext[RGB]{236,236,236}{#1}}
 \newcommand{\codeword}[1]{\colorbox{light-gray}{\texttt{#1}}}
 \newcommand{\cw}[1]{\colorbox{light-gray}{\texttt{#1}}}
 \newcommand{\boldword}[1]{\textbf{#1}}
@@ -264,4 +273,5 @@ end
 \newcommand{\fixdots}[1]{\directlua{fixDots("#1")}}
 \crefformat{figure}{Figure ~\fixdots{#2#1#3}}
 %\crefformat{table}{Table #2#1#3}
+\renewcommand*\descriptionlabel[1]{\hspace\leftmargin$#1$}
 
