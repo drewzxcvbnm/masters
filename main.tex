@@ -120,7 +120,7 @@ DPI is an important part of corporate networking and traffic analysis and severa
   \item \textbf{DPI and Machine Learning:} \cite{dpiml} postulate the integration of machine learning into DPI systems and present an new approach for DPI systems enhanced by machine learning which potentially describes the future of DPI and how they will further evolve.
   \item \textbf{DPI and SSL Inspection:} \cite{dpiprobing} assess the DPI system of network traffic, including anomaly detection. This study is important for understanding how DPI is adapting to modern encrypted traffic.
 \end{itemize}
-These chosen studies give a broad look at DPI, looking at its scientific roots, its uses in different areas, and new problems that are coming up. To fully understand DPI in the bigger picture of VPN obfuscation and protocol obfuscation, which are the main ideas of this thesis, you need to understand these aspects.
+These chosen studies give a broad look at DPI, looking at its scientific roots, its uses in different areas, and new problems that are coming up. To fully understand DPI in the bigger picture of VPN obfuscation and protocol obfuscation, which are the main ideas of this thesis, one needs to understand these aspects.
 \subsubsection{Protocol obfuscation related literature}
 Protocol obfuscation refers to the process of using various methods and techniques to hide the true identity of the protocol being used for communication between network devices. This is most important area of study pertaining to my thesis and as such many different sources and papers were found for it:
 \begin{itemize}
@@ -349,7 +349,7 @@ When it comes to VPN encryption methods, building a virtual testbed is important
 
 An open-source software application, Vagrant allows to create and manage portable virtual environments for software development. It comes with a straightforward command-line client for controlling these settings, and a standard for configuration files to specify the virtual machines needed for a certain project. Because of its versatility, ease of use, and extensive support for several virtualization providers, including Libvirt, Vagrant was chosen for this testbed.
 
-On the other hand, Libvirt presente withing itself a set of tools that can communicate with the virtualization features of newer Linux distributions (and other operating systems). As a management tool for platform virtualization, it is a C toolkit that interacts with Linux's virtualization features. The chosen choice for robust and scalable virtual networking experiments is due to its vast feature set and particularly well-known stability.
+Libvirt, on the other hand, gives one a set of tools that can be used to talk to the virtualization features of later Linux distributions. This is a C toolkit that works with Linux's virtualization features to act as a management tool for platform virtualization. Because it has so many features and is known for being stable, it can be seen as a reliable choice for testing virtual networking.
 
 \begin{figure}[H]
 	\centering
@@ -358,17 +358,17 @@ On the other hand, Libvirt presente withing itself a set of tools that can commu
   \label{fig:topology}
 \end{figure}
 
-The testbed consists of many virtual machines that are configured to imitate the major components of a VPN system as can be seen on \cref{fig:topology}, such as routers, VPN servers, and clients. The Vagrant configuration file defines four different VMs: vmrouter, routerslave, vpnserver, and vm4. Each VM is given unique network interfaces and IP addresses to ensure that it mimics the common network elements seen in a VPN situation.
+The testbed consists of many virtual machines that are configured to imitate the major components of a VPN system as can be seen on \cref{fig:topology}, such as routers, VPN servers, and clients. The Vagrant configuration file defines four different VMs: vmrouter, routerslave, vpnserver, and vm4. Each VM is given unique network interfaces and IP addresses to ensure that it mimics the common networking elements seen in a VPN situation.
 
 The network topology was created to resemble a standard VPN environment with multiple network segments. The vmrouter acts as the primary router, connecting two different subnets. This VM is of course important as it simulates the gateway through which traffic is routed. The second VM, routerslave, is configured to act as a client to the router within the network, providing more realism to the client-server architecture commonly seen in VPN networks.
 
-The VPN server is set up to be the vpnserver VM. This computer is very important to the testbed because it acts like the server side of a VPN. This is where different methods of encrypting data can be used and tried. The last VM, vm4, is a normal client in the network that is used to check how accessible and useful the VPN server is from the point of view of a client.
+The VPN server is set up to be the vpnserver VM. This VM is very important to the testbed because it acts like the server side of a VPN. This is where the VPN service itself can be configured and started, and where server-side changes can be applied for implementing a VPN obfuscation method, if that is required. The last VM, vm4, is a normal client in the network that is only accessible from the VPN server and used to check whether the VPN is working correctly by having another VPN client (routerslave) connect to it.
 
-In some VMs, the network's dual-interface design lets for a complicated routing situation that works like a real VPN, where data traffic often goes through multiple network segments. This set-up is great for trying obfuscation methods that might be affected by different network paths and settings.
+In some VMs, the network's dual-interface design lets for a complicated routing situation that works like a real VPN, where data traffic often goes through multiple network segments. This set-up creates a more realistic environment for testing VPN obfuscation methods.
 
 
 \subsection{Router Configuration}
-The vmrouter virtual machine is an important part of the virtual network topology because it is meant to be a router in the Vagrant-based environment. This VM, which was set up using Vagrant with the "generic/ubuntu1804" box and provisioned for the libvirt provider, serves as a crucial node for network traffic management and routing in your VPN obfuscation method testing setup.
+The vmrouter virtual machine is an important part of the virtual network topology because it is meant to be a router in the Vagrant-based environment. This VM, which was set up using Vagrant with the "generic/ubuntu1804" box and provisioned for the libvirt provider, serves as a crucial node for network traffic management and routing in the VPN obfuscation method testing setup.
 
 \subsubsection{Networking Interface Configuration}
 \begin{table}[H]
@@ -632,11 +632,11 @@ It should be kept in mind that no obfuscation technique is foolproof. Methods th
 The above \cref{fig:before} and \cref{fig:after} serve as an example of how the traffic looks like before and after successful obfuscation. The first image shows the traffic before obfuscation, and the second shows it after obfuscation. The traffic is identified to be OpenVPN in the first image, but it is completely unknown in the second. This is a good example of how a VPN obfuscation method should work.
 
 \subsubsection{Latency}
-The term "latency" describes the time it takes for a data packet to travel from its origin to its final destination. Usually, milliseconds (ms) are used to assess latency. Common methods for gauging network latency include the "ping" and "traceroute" commands, which track how long it takes for a packet to go from sender to receiver. However, since it is possible that ICMP requests are prioritized by an operating system, which would lead to the ICMP requests getting better latency results than what might be expected in real-life scenarios. As such, latency is tested by making a number of simple HTTP requests.
+The term "latency" tells one how long it takes for a data packet to travel from its origin to its final destination. Usually, milliseconds (ms) are used to assess latency. Common methods for gauging network latency include the "ping" and "traceroute" commands, which track how long it takes for a packet to go from sender to receiver. However, since it is possible that ICMP requests are prioritized by an operating system, which would lead to the ICMP requests getting better latency results than what might be expected in real-life scenarios. As such, latency is tested by making a number of simple HTTP requests.
 
-One of the most important metrics in network communications is latency, which is the amount of time it takes for a data packet to go from its origin to its final destination. Milliseconds (ms) is the standard unit of measurement for latency, which has far-reaching effects on the speed of network communications, the quality of the user experience, and the overall performance of systems in a wide range of applications, from basic web browsing to sophisticated real-time data processing.
+A data packet's latency—the time it takes to travel from its source to its destination—is one of the most critical variables in network communications. From simple web browsing to complex real-time data processing, latency—which is typically measured in milliseconds (ms)—has considerable implications for the efficiency of network communications, the satisfaction of users, and the general performance of systems.
 
-Tools such as 'ping' and 'traceroute' are frequently used for measuring latency. The 'ping' command calculates the time it takes for a message to travel from its source to its destination. But 'ping' isn't perfect; different operating systems give varying priorities to ICMP requests, so the results could be deceiving. 
+People often use tools like 'ping' and 'traceroute' to measure latency. By using the 'ping' command, one can determine how long it takes for a message to go from its origin to its final destination. The findings may be misleading, though, because 'ping' isn't flawless and different OSes assign different priorities to ICMP requests. 
 
 In my testing methodology, latency is assessed by making HTTP requests. This method is chosen to more accurately mimic the user's real-world interaction with the network. HTTP requests are a standard part of web browsing and online communications, thus providing a realistic measure of the latency that users are likely to experience.
 
@@ -648,7 +648,7 @@ In my testing methodology, latency is assessed by making HTTP requests. This met
 \end{figure}
 
 \subsubsection{Throughput}
-The amount of data successfully carried from one point to another within a particular time frame is represented by throughput, a crucial parameter in networking and computer systems. Bits per second (bps), kilobits per second (kbps), megabits per second (Mbps), and gigabits per second (Gbps) are typical units of measurement. A network's throughput—the rate at which data actually moves through the network—is a crucial performance indicator.
+An important metric in computer systems and networks, throughput represents the quantity of data successfully sent from one location to another during a specific time period. One common unit of measurement is bits per second, but others include kilobits per second, megabits per second, and gigabits per second. The throughput of a network is an important performance metric since it measures how quickly data actually travels over the network.
 
 Though it may be noted that throughput and bandwidth are similar but different concepts. The real pace at which data may be moved over a network is known as throughput, whereas bandwidth is the theoretical maximum rate. Factors such as protocol overhead, packet loss, and network latency cause throughput to be lower than bandwidth. So in real-life, throughput is more helpful than bandwidth in determining network performance.
 
@@ -671,7 +671,11 @@ The following figure gives a demonstration of the output Iperf generates:
 
 
 \subsubsection{Client-Server Accessibility}
-Client-Server Accessibility can also be a crucial criteria depending on the circumstances. Most of the explored obfuscation methods require the user to access and make changes on the side of the VPN server, but if the user does not have access to the VPN server or is not allowed to make changes to it, this criteria becomes important. The ability of a VPN obfuscation method to be used without any changes to the VPN server is important to its success. The more accessible a method is to the client, the more likely it is to be effective in a real-world situation. This criteria is also boolean, meaning that a method either passes or fails.
+Depending on the specifics, client-server accessibility may also be an important factor to consider. This criteria becomes significant if the user does not have access to the VPN server or is not permitted to make changes to it, since most of the investigated obfuscation methods require the user to make changes on the VPN server. 
+The ability of a VPN obfuscation method to be used without any changes to the VPN server is important to its success. 
+The more accessible a method is to the user, the more likely it is to be effective in a real-world situation.
+A method can either pass or fail based on this boolean criteria.
+
 \subsection{Port switching}
 \subsubsection{Concept and Overview}
 One way to obfuscate a VPN is by adjusting the port that the server uses to communicate with the network. When discussing computer networks, the term "port" refers to either a physical location or an abstract concept that serves as a communication endpoint. VPN services usually employ widely recognizable and well-known ports. It is possible to evade Deep Packet Inspection (DPI) technologies by masking VPN traffic as another sort of communication and switching these ports.
@@ -682,7 +686,7 @@ A user can make their VPN communication look like any other kind of valid traffi
 
 While port switching can get around simple DPI methods, it might not work against more advanced DPI systems that look at things like data patterns, packet size, and time.
 \subsubsection{Method Implementation}
-Changing the settings of the VPN server software is usually the way to go when implementing port switching in a VPN setting. If you're using OpenVPN, for instance, you can accomplish this by modifying the server configuration file's 'port' directive. Having administrator privileges on the VPN server is necessary for this procedure.
+Port switching can be implemented by the settings of the VPN server software. When using OpenVPN this can be accomplished by modifying the server configuration file's 'port' directive. Having administrator privileges on the VPN server is necessary for this procedure.
 
 Changing the OpenVPN port is a fairly straightforward process and involves the following steps:
 \begin{itemize}
@@ -723,7 +727,7 @@ For my thesis, I chose to focus on Multimedia Embedding Steganography, specifica
 
 I developed a Python script that employs the Least Significant Bit (LSB) method combined with a key-dependent embedding mechanism. The LSB method involves altering the least significant bits of the pixel values in an image to encode the hidden data. This method is effective as it causes minimal perceptible changes to the image, thus maintaining its appearance while embedding the secret data.
 
-To enhance the security and robustness of the embedding process, I integrated a simple key-dependent mechanism. This mechanism requires a secret key for both embedding and extracting the data, adding an extra layer of security to the process. The use of a key ensures that even if the presence of steganography is suspected or detected, the hidden data remains inaccessible without the correct key.
+To enhance the security and robustness of the embedding process, I integrated a simple key-dependent mechanism. This mechanism requires a secret key for both embedding and extracting the data, adding an extra layer of security to the process. The use of a key ensures that even if the presence of steganography is suspected or detected, the hidden data remains inaccessible without the correct key. \citep{stegokey}
 
 The implementation involved configuring both the client and the server to route all network traffic through the steganography scripts. This was achieved using iptables NFQUEUE and the Python library Scapy. NFQUEUE is a feature of the Netfilter framework in the Linux kernel, designed to delegate the handling of packet filtering and manipulation to user-space programs. When network packets match certain iptables rules, they are enqueued to NFQUEUE, where a user-space application, in this case, our steganography script, can inspect, modify, or even drop them. This interaction is facilitated by the libnetfilter\_queue library, which provides an API for queuing and retrieving packets from the kernel to user space. In order to route all network traffic through the steganography script, iptables rules were configured to redirect all packets to NFQUEUE with the command: \codeword{iptables -A INPUT -j NFQUEUE --queue-num 1
 } for all inbound packets and \codeword{iptables -A OUTPUT -j NFQUEUE --queue-num 1} for all outbound packets. This ensures that all packets are enqueued to NFQUEUE, where they can be intercepted and manipulated by the steganography script.
@@ -731,17 +735,17 @@ The implementation involved configuring both the client and the server to route 
 Scapy, a powerful Python library for packet manipulation, was chosen to handle these packets in user space. It provides a more intuitive and high-level interface for packet analysis and manipulation compared to raw sockets, simplifying the process. The use of Scapy, in conjunction with NFQUEUE, allowed for efficient and effective interception and modification of network traffic. This approach also elegantly circumvents the complexities of IP fragmentation and TCP segmentation, which can be challenging when using raw sockets. By leveraging NFQUEUE and Scapy together, one can seamlessly integrate the steganography process into the network flow, significantly simplifying the implementation while ensuring the effectiveness and reliability of the steganography process.
 
 The chosen image for the steganography process was approximately 13kb in size. Based on this size, the maximum amount of data that could be effectively hidden within the image was calculated to be about 1664 bytes. This calculation was derived using the formula:
+\begin{ceqn}
 \begin{equation}
 (isz / bpp) * lsb / 8
 \end{equation}
-%\text{where} isz \text{- image size in bytes,} \\
-%bpp - \text{bytes per pixel,} \\
-%lsb - \text{number of least significant bits to use for embedding}
-%where:
-%\begin{description}
-%\item[R] is Racoon
-%\item[E] is Elephant
-%\end{description}
+\end{ceqn}
+where:
+\begin{description}
+  \item [isz] - image size in bytes
+  \item [bpp] - bytes per pixel
+  \item[lsb] - number of least significant bits to use for embedding (3 in this case, since each pixel has 3 color channels)
+\end{description}
 This formula takes into account the size of the image, the number of bytes per pixel, and the number of bits used for embedding the data.
 
 \subsubsection{Evaluation}
@@ -820,7 +824,7 @@ In evaluating this implementation of Geneva, several key criteria were considere
 \item Detection Resistance: The strategy successfully passed the detection resistance test, as nDPI (a widely used DPI tool) failed to identify the traffic as OpenVPN. This indicates a high level of effectiveness in evading DPI systems.
 \item Client-Server Accessibility: This strategy can be implemented entirely from the client side, which significantly enhances its usability and deployability in various scenarios where server-side modifications are not feasible.
 \item Latency Impact: The implementation resulted in a 14\% increase in latency. While this indicates a notable impact, it remains within acceptable limits considering the benefit of evading DPI.
-Throughput: There was an 8\% decrease in throughput, which is a trade-off for the increased complexity of the packet manipulation required to bypass DPI systems.
+Throughput: There was an 11\% decrease in throughput, which is a trade-off for the increased complexity of the packet manipulation required to bypass DPI systems.
 \end{itemize}
 
 \subsection{Encryption tunneling}
@@ -859,6 +863,52 @@ The latency impact of implementing stunnel with OpenVPN was observed to be a 6\%
 Throughput, on the other hand, experienced a decrease of about 10\%. This reduction is attributed to the additional processing required for encrypting and decrypting data packets in the stunnel layer. While this decrease in throughput is noticeable, it is a common consequence of enhanced security measures in VPN technologies.
 
 \section*{\centering Conclusion}
+
+This thesis represents a significant foray into the domain of VPN obfuscation, a critical facet of modern cybersecurity. In an era where digital communication is paramount, the tug of war between maintaining privacy through VPNs and efforts to detect and block such encrypted connections is more relevant than ever. This research pivots around an in-depth analysis of various VPN obfuscation methods, their effectiveness against deep packet inspection (DPI) systems, particularly nDPI, within a simulated network environment.
+
+The core questions at the heart of this thesis were:
+\begin{itemize}
+  \item Which VPN obfuscation methods can successfully evade detection by the nDPI system?
+  \item How do these methods perform based on selected criteria?
+  \item Which method is most suitable in practical scenarios?
+\end{itemize}
+
+The findings reveal a diverse landscape of obfuscation techniques, each with its strengths and trade-offs. The assessment, detailed in the following table, provides a clear comparison across key metrics:
+
+\begin{table}[h]
+\centering
+\caption{Comparison of VPN Obfuscation Methods}
+\label{table:vpn_obfuscation_methods}
+  \scalebox{0.90}{
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Method} & \textbf{Detection Resistance} & \textbf{Client-Server Access} & \textbf{Latency Impact} & \textbf{Throughput} \\ \hline
+Encryption Tunneling & Pass & Server required & +6\% & -10\% \\ \hline
+Geneva & Pass & Client only & +14\% & -11\% \\ \hline
+Steganography & Pass & Server required & +560\% & -88\% \\ \hline
+Port Switching & Fail & Server required & No Impact & No Impact \\ \hline
+\end{tabular}
+}
+\end{table}
+
+The different levels of efficiency and efficacy of each strategy are illustrated in this table. Both Geneva and Encryption Tunneling are quite resistant to detection, and their effects on throughput and latency are minor. The substantial latency and throughput penalties imposed by steganography render it unsuitable for applications that are performance-sensitive, notwithstanding its great effectiveness. In contrast, Port Switching isn't a dependable defense against DPI.
+
+The decision-making process for selecting an appropriate VPN obfuscation method is crucial in practical scenarios. The \cref{fig:select} provided in this thesis offers a systematic approach to this selection process:
+\begin{figure}[H]
+\centering
+	\includegraphics[width=0.75\textwidth]{img/selection}
+\caption{Methodology for Selecting a VPN Obfuscation Method}
+\label{fig:select}
+\end{figure}
+
+The first step in the diagram is to determine whether or not the virtual private network server is available. Geneva is the only realistic choice in the event that there is no access to the VPN server. In any other case, port switching should be utilized. Since port switching does not have any impact on performance indicators, it is suggested to attempt it first if it is possible to take advantage of it. 
+
+If Port Switching is able to circumvent DPI without negatively impacting performance, then the process is said to have been completed. On the other hand, because it has a low resistance to detection, the next step is to attempt encryption tunneling in the event that it is unsuccessful.
+
+If successful, encryption tunneling provides a balanced solution that has a moderate impact on both throughput and latency. In the event that it is unable to avoid notice, the procedure will proceed by way of Geneva.
+Geneva is a good competitor due to the fact that it is effective in evasion and has flexibility on the client's side. The process is finished here if it works. Else, the final option is to use steganography.
+
+Due of the enormous impact that this option has on the performance of the network, it is recommended as the final choice. The employment of this technique is most suitable for situations in which performance implications are less of a concern, despite the fact that it is quite effective in evading.
 
 \addcontentsline{toc}{section}{Reference List}
 \bibliography{refs.bib} % Entries are in the refs.bib file
