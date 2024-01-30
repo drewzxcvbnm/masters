@@ -102,8 +102,9 @@ end
 
 \usepackage{caption}
 % Configure table caption style
-\DeclareCaptionFormat{myformat}{\hfill#1#2\\\textbf{#3}} 
-\captionsetup[table]{format=myformat, labelsep=quad, singlelinecheck=false, justification=centering}
+\DeclareCaptionFormat{myformat}{\hfill#1#2\\\textbf{#3}}
+\DeclareCaptionLabelFormat{mylabelformat}{#1 #2}
+\captionsetup[table]{format=myformat, labelsep=quad, singlelinecheck=false, justification=centering, labelformat=mylabelformat}
 
 \usepackage{subcaption}
 \DeclareCaptionLabelFormat{custom}

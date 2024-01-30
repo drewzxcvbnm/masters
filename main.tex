@@ -4,6 +4,7 @@
 
 \begin{document}
 %\includepdf[pages={1,2,3,4}]{final.pdf}
+\includepdf{img/titullapa.pdf}
 \setcounter{page}{5}
 
 
@@ -41,6 +42,7 @@
     \sortitem{SSH - Secure Shell}
     \sortitem{VM - Virtual Machine}
     \sortitem{NAT - Network Address Translation}
+    \sortitem{LSB - Least Significant Bits}
 	\end{sortedlist}
 \end{adjustwidth}
 \addcontentsline{toc}{section}{Introductions}
@@ -344,7 +346,7 @@ Traditional methods of evading DPI also include obfuscation and Secure Shell (SS
 Methods that masquerade as valid protocols (like HTTPS) in order to conceal harmful or restricted traffic are less successful when faced with current DPI. In order to distinguish between real protocol traffic and imposters, sophisticated algorithms examine time, packet size, and other subtle features. \citep{dpisslinspect}
 
 Data packets' genuine nature might be concealed by using traffic fragmentation and padding, which were common techniques in legacy evasion strategies. In order to determine the true type or content of the traffic, modern DPI can reconstruct broken packets by analyzing the padding.
-\section{Experimentation testbed}
+\section{Experimental testbed}
 When it comes to VPN encryption methods, building a virtual testbed is important for validating experimention results. This section is about the established testbed, including how it is set up, why certain tools were chosen, and how the network is structured overall. Vagrant and Libvirt were used to set up the testbed. These tools are essential for building and managing virtual machines (VMs) that mimic a real-world network environment so that VPN obfuscation methods can be tested.
 
 An open-source software application, Vagrant allows to create and manage portable virtual environments for software development. It comes with a straightforward command-line client for controlling these settings, and a standard for configuration files to specify the virtual machines needed for a certain project. Because of its versatility, ease of use, and extensive support for several virtualization providers, including Libvirt, Vagrant was chosen for this testbed.
@@ -701,18 +703,18 @@ This procedure shows that access to the server is required to accomplish port sw
 \subsubsection{Evaluation}
 In regards to the specified criteria for assessing port switching:
 \begin{itemize}
-\item \textbf{Resistance to Detection}: When tested against state-of-the-art DPI technologies, this strategy tends to fall flat. Due to their comprehensive analysis, DPI systems such as nDPI are able to detect OpenVPN traffic irrespective of the port number. Thus, port flipping may provide some obfuscation, but it isn't a great way to get past advanced DPI systems.
+\item \textbf{Resistance to Detection}: When tested against state-of-the-art DPI technologies, this strategy tends to fall flat. Due to their comprehensive analysis, DPI systems such as nDPI are able to detect OpenVPN traffic irrespective of the port number. Thus, port switching may provide some obfuscation, but it isn't a great way to get past advanced DPI systems.
 \item \textbf{Client-Server Accessibility}: In order to implement port switching, it is necessary to have access to the VPN server. Due to the fact that proper communication requires congruence of server and client settings, it cannot be considered a client-side solution. Due to this requirement, the method cannot be used in situations where the user does not have the necessary permissions or access to the server.
 \item \textbf{Latency}: The latency effect is not directly proportional to the port number of the VPN server. The delay is unchanged because the method merely entails rerouting traffic through an other port; it does not impose any extra processing or routing overhead.
 \item \textbf{Throughput}: is also unaffected by changing ports. Since the approach does not incorporate any extra data encryption or rerouting that may decrease the traffic, the data transmission rate remains constant with the VPN service's baseline performance.
 \end{itemize}
 
 \subsection{Steganography}
-The practice of steganography dates back thousands of years and involves concealing data within apparently harmless carriers. The field of steganography has expanded in the field of digital communications to include a wide range of methods for concealing information within many digital formats, including but not limited to photos, audio, video files, network protocols, and more.
+The practice of steganography dates back many years and involves concealing data within apparently harmless carriers. The field of steganography has expanded in the field of digital communications to include a wide range of methods for concealing information within many digital formats, including but not limited to photos, audio, video files, network protocols, and more.
 \subsubsection{Protocol Field Stegonagraphy}
-Protocol Field Steganography is a sophisticated method of obfuscation which involves embedding secret information within the redundant or unused fields of network protocol headers. Unlike traditional steganography, which primarily focuses on media files, this technique leverages the inherent structure of network protocols. Since many fields in protocol headers, like IP or TCP headers, are often unused or contain predictable values, they can be repurposed to covertly transmit data.
+Protocol Field Steganography is a method of obfuscation which involves embedding secret information within the redundant or unused fields of network protocol headers. Unlike traditional steganography, which primarily focuses on media files, this technique leverages the inherent structure of network protocols. Since many fields in protocol headers, like IP or TCP headers, are often unused or contain predictable values, they can be repurposed to covertly transmit data.
 
-The essence of Protocol Field Steganography lies in its ability to blend in with regular network traffic. By utilizing the unused areas of protocol headers, data can be transmitted in a way that is nearly indistinguishable from normal traffic. This method is particularly effective against Deep Packet Inspection (DPI) as the embedded data does not alter the expected patterns of the protocol. Moreover, since this method does not significantly alter the packet size or structure, it maintains a low profile, making detection considerably more challenging.
+The essence of Protocol Field Steganography lies in its ability to blend in with regular network traffic. By utilizing the unused areas of protocol headers, data can be transmitted in a way that is nearly indistinguishable from normal traffic. This method is particularly effective against Deep Packet Inspection as the embedded data does not alter the expected patterns of the protocol. Moreover, since this method does not significantly alter the packet size or structure, it maintains a low profile, making detection considerably more challenging.
 
 One of the primary advantages of Protocol Field Steganography is its low impact on network performance. Since it utilizes existing protocol structures, it does not significantly increase packet size, thus maintaining network efficiency and avoiding bandwidth overhead. However, its capacity for data transmission is limited by the size and number of available unused fields in the protocol headers. Additionally, implementing this technique requires a deep understanding of network protocols and the ability to manipulate packet headers, which may pose a challenge for average users.
 \subsubsection{Multimedia Embedding Stegonagraphy}
@@ -723,13 +725,13 @@ The strength of Multimedia Embedding Steganography lies in its ability to hide l
 Implementing Multimedia Embedding Steganography requires a careful balance between the amount of data to be embedded and the preservation of the medium’s integrity. The key challenge is to embed data in a way that avoids detection while ensuring that the carrier medium remains functional and unchanged to casual observation. This requires sophisticated algorithms that can subtly manipulate the medium while maintaining its original properties.
 
 \subsubsection{Method Implementation}
-For my thesis, I chose to focus on Multimedia Embedding Steganography, specifically using images as the carrier medium. This decision was driven by the inherent challenge of hiding data within a medium that is routinely subjected to analysis and inspection, making it a compelling case for robust steganography.
+For my thesis, I chose to focus on Multimedia Embedding Steganography, specifically using images as the carrier medium. I believed this method would be more effective in evading Deep Packet Inspection techniques, as it is less susceptible to automated analysis and inspection. Since DPI systems are unable to decrypt and directly analyse packet data they simply search for uncertain patterns withing the data. If most of the data within a packet is legitimate, finding the hidden data becomes a challenging task, making multimedia embedding a compelling solution. Unlike, protocol field steganography which may be more susceptible to detection due to its use of protocol fields that are not encrypted and can be directly inspected.
 
-I developed a Python script that employs the Least Significant Bit (LSB) method combined with a key-dependent embedding mechanism. The LSB method involves altering the least significant bits of the pixel values in an image to encode the hidden data. This method is effective as it causes minimal perceptible changes to the image, thus maintaining its appearance while embedding the secret data.
+A Python script was developed that employs the Least Significant Bit (LSB) method combined with a key-dependent embedding mechanism. The LSB method involves altering the least significant bits of the pixel values in an image to encode the hidden data. This method is effective as it causes minimal perceptible changes to the image, thus maintaining its appearance while embedding the secret data.
 
-To enhance the security and robustness of the embedding process, I integrated a simple key-dependent mechanism. This mechanism requires a secret key for both embedding and extracting the data, adding an extra layer of security to the process. The use of a key ensures that even if the presence of steganography is suspected or detected, the hidden data remains inaccessible without the correct key. \citep{stegokey}
+To enhance the security and robustness of the embedding process, a simple key-dependent mechanism was integrated. This mechanism requires a secret key for both embedding and extracting the data, adding an extra layer of security to the process. The secret key impacts the order in which bits and pixels are embedded into. The use of a key ensures that even if the presence of steganography is suspected or detected, the hidden data remains inaccessible without the correct key. \citep{stegokey}
 
-The implementation involved configuring both the client and the server to route all network traffic through the steganography scripts. This was achieved using iptables NFQUEUE and the Python library Scapy. NFQUEUE is a feature of the Netfilter framework in the Linux kernel, designed to delegate the handling of packet filtering and manipulation to user-space programs. When network packets match certain iptables rules, they are enqueued to NFQUEUE, where a user-space application, in this case, our steganography script, can inspect, modify, or even drop them. This interaction is facilitated by the libnetfilter\_queue library, which provides an API for queuing and retrieving packets from the kernel to user space. In order to route all network traffic through the steganography script, iptables rules were configured to redirect all packets to NFQUEUE with the command: \codeword{iptables -A INPUT -j NFQUEUE --queue-num 1
+The implementation involved configuring both the client and the server to route all network traffic through the steganography scripts. This was achieved using iptables NFQUEUE and the Python library Scapy. NFQUEUE is a feature of the Netfilter framework in the Linux kernel, designed to delegate the handling of packet filtering and manipulation to user-space programs. When network packets match certain iptables rules, they are enqueued to NFQUEUE, where a user-space application, in this case, the steganography script, can inspect, modify, or even drop them. This interaction is facilitated by the libnetfilter\_queue library, which provides an API for queuing and retrieving packets from the kernel to user space. In order to route all network traffic through the steganography script, iptables rules were configured to redirect all packets to NFQUEUE with the command: \codeword{iptables -A INPUT -j NFQUEUE --queue-num 1
 } for all inbound packets and \codeword{iptables -A OUTPUT -j NFQUEUE --queue-num 1} for all outbound packets. This ensures that all packets are enqueued to NFQUEUE, where they can be intercepted and manipulated by the steganography script.
 
 Scapy, a powerful Python library for packet manipulation, was chosen to handle these packets in user space. It provides a more intuitive and high-level interface for packet analysis and manipulation compared to raw sockets, simplifying the process. The use of Scapy, in conjunction with NFQUEUE, allowed for efficient and effective interception and modification of network traffic. This approach also elegantly circumvents the complexities of IP fragmentation and TCP segmentation, which can be challenging when using raw sockets. By leveraging NFQUEUE and Scapy together, one can seamlessly integrate the steganography process into the network flow, significantly simplifying the implementation while ensuring the effectiveness and reliability of the steganography process.
@@ -767,9 +769,9 @@ At the core of Geneva's functionality are censorship evasion strategies. These s
 
 Geneva's basic building blocks for these strategies include actions like duplicate, drop, tamper, and fragment. These actions are applied to network packets to generate a variety of effects. For instance, duplicate creates two copies of a packet, while tamper modifies a packet in a specified manner.
 
-An essential aspect of these strategies is the use of action trees, a binary-tree structure where each tree has a trigger and a set of actions. The trigger determines which packets the tree should act upon, and the tree dictates the modifications to be applied to these packets. These triggers are packet-level triggers, ensuring that Geneva operates seamlessly at the network packet level.
+An important aspect of these strategies is the use of action trees, a binary-tree structure where each tree has a trigger and a set of actions. The trigger determines which packets the tree should act upon, and the tree dictates the modifications to be applied to these packets. These triggers are packet-level triggers, ensuring that Geneva operates seamlessly at the network packet level.
 
-Strategies in Geneva are composed of two forests: one for outbound traffic and another for inbound traffic. The strategy DNA is a well-formatted string syntax that unambiguously expresses these strategies. Each strategy specifies how it handles outbound and inbound packets, differentiated by the "\textbackslash /" symbol in its DNA.
+Strategies in Geneva are composed of two forests: one for outbound traffic and another for inbound traffic. The strategy DNA is a formatted string syntax that expresses these strategies. Each strategy specifies how it handles outbound and inbound packets, differentiated by the "\textbackslash /" symbol in its DNA.
 
 \subsubsection{Strategy DNA}
 The Strategy DNA in Geneva is a critical component that defines the manipulation of network traffic to bypass censorship. It outlines the blueprint for how Geneva's engine interacts with and modifies network packets.
@@ -782,7 +784,7 @@ The Strategy DNA in Geneva is a critical component that defines the manipulation
 
     \item \textbf{Branching and Parameters}:
     \begin{itemize}
-        \item \textit{Branching}: Actions like \texttt{duplicate} introduce branching, represented by syntax illustrating left and right children, e.g., \texttt{duplicate(tamper{}, fragment{})}.
+        \item \textit{Branching}: Actions like \texttt{duplicate} introduce branching, represented by syntax showing left and right children, e.g., \texttt{duplicate(tamper{}, fragment{})}.
         \item \textit{Parameters}: Actions such as \texttt{tamper} include parameters within \texttt{\{\}}, specifying the exact modifications, like \texttt{tamper\{TCP:flags:replace:ACK\}}.
     \end{itemize}
 \end{itemize}
@@ -804,7 +806,10 @@ An example is \codeline{
 \end{itemize}
 
 \paragraph{Implications and Effectiveness}
-Strategy DNA's format allows Geneva to define complex packet manipulations succinctly. It provides flexibility to create diverse strategies against various DPI techniques. The ability to specify manipulations for both outbound and inbound traffic ensures effectiveness against bidirectional traffic inspection. This format simplifies strategy creation and allows for rapid deployment and testing in response to evolving censorship methodologies.
+Strategy DNA's format allows Geneva to define complex packet manipulations in a concise way. 
+It provides flexibility to create diverse strategies against various DPI techniques. 
+Being able to define changes for both outgoing and incoming traffic makes it possible to protect against bidirectional traffic inspection.
+This format simplifies strategy creation and allows for rapid deployment and testing in response to evolving censorship methodologies.
 
 
 \subsubsection{Method Implementation}
@@ -826,7 +831,7 @@ In evaluating this implementation of Geneva, several key criteria were considere
 \item Latency Impact: The implementation resulted in a 14\% increase in latency. While this indicates a notable impact, it remains within acceptable limits considering the benefit of evading DPI.
 Throughput: There was an 11\% decrease in throughput, which is a trade-off for the increased complexity of the packet manipulation required to bypass DPI systems.
 \end{itemize}
-
+It should be noted that the specific strategy used in this test may not work against DPI systems in other real-world scenarios, in which case a different strategy may be required. The Geneva algorithm's ability to automatically generate and test strategies is its most significant advantage in this regard. Though due to the stochastic nature of the algorithm, the results may vary case by case.
 \subsection{Encryption tunneling}
 Encryption tunneling is a sophisticated method used in Virtual Private Networks (VPNs) to enhance the security and privacy of data transmission. This technique involves creating an additional secure tunnel, which encapsulates the primary VPN traffic. This added layer of encryption can be particularly effective in preventing Deep Packet Inspection (DPI) from identifying and possibly blocking VPN traffic.
 \subsubsection{Concept and Overview}
